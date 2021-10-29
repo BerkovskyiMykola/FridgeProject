@@ -65,7 +65,7 @@ namespace FridgeProject.Controllers
 
         // GET: api/Users
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();

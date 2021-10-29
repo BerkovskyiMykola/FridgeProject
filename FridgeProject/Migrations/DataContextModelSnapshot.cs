@@ -179,8 +179,7 @@ namespace FridgeProject.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()

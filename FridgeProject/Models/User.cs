@@ -16,7 +16,6 @@ namespace FridgeProject.Models
         [EmailAddress]
         public string Email { set; get; }
         [Required]
-        [StringLength(16, MinimumLength = 8)]
         public string Password { set; get; }
         [Required]
         public string Role { set; get; }

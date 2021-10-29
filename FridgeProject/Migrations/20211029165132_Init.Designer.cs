@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FridgeProject.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211029120623_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211029165132_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,8 +181,7 @@ namespace FridgeProject.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
