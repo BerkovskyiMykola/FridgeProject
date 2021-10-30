@@ -153,7 +153,7 @@ namespace FridgeProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Subscriber");
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("FridgeProject.Models.User", b =>

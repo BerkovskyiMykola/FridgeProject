@@ -13,7 +13,7 @@ namespace FridgeProject.Models
         public DbSet<History> Histories { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<Subscriber> Subscribers { get; set; }
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {

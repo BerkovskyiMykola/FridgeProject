@@ -119,7 +119,7 @@ namespace FridgeProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subscriber",
+                name: "Subscribers",
                 columns: table => new
                 {
                     SubscriberId = table.Column<int>(type: "int", nullable: false)
@@ -129,15 +129,15 @@ namespace FridgeProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subscriber", x => x.SubscriberId);
+                    table.PrimaryKey("PK_Subscribers", x => x.SubscriberId);
                     table.ForeignKey(
-                        name: "FK_Subscriber_Fridges_FridgeId",
+                        name: "FK_Subscribers_Fridges_FridgeId",
                         column: x => x.FridgeId,
                         principalTable: "Fridges",
                         principalColumn: "FridgeId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Subscriber_Users_UserId",
+                        name: "FK_Subscribers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -170,13 +170,13 @@ namespace FridgeProject.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscriber_FridgeId",
-                table: "Subscriber",
+                name: "IX_Subscribers_FridgeId",
+                table: "Subscribers",
                 column: "FridgeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscriber_UserId",
-                table: "Subscriber",
+                name: "IX_Subscribers_UserId",
+                table: "Subscribers",
                 column: "UserId");
         }
 
@@ -192,7 +192,7 @@ namespace FridgeProject.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Subscriber");
+                name: "Subscribers");
 
             migrationBuilder.DropTable(
                 name: "Fridges");

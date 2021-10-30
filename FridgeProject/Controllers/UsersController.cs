@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using FridgeProject.Services.Authorization.Models;
 using Microsoft.AspNetCore.Authorization;
+using FridgeProject.Models.Request;
 
 namespace FridgeProject.Controllers
 {
@@ -28,23 +29,27 @@ namespace FridgeProject.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register(RegisterRequest model)
         {
-            if (await _context.Users.AnyAsync(x => x.Email == user.Email))
+            if (await _context.Users.AnyAsync(x => x.Email == model.Email))
             {
-                return BadRequest("User exists");
+                return BadRequest("User with such Email exists");
             }
 
-            user.Password = GetPasswordHash(user.Password);
-
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(new User() { 
+                Lastname = model.Lastname,
+                Firstname = model.Firstname,
+                Email = model.Email,
+                Password = GetPasswordHash(model.Password),
+                Role = model.Role
+            });
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate(User model)
+        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == model.Email);
 
@@ -58,24 +63,23 @@ namespace FridgeProject.Controllers
                 return BadRequest("Invalid password");
             }
 
-            var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Password = user.Password, Role = user.Role });
+            var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
 
-            return Ok(token);
+            return Ok(new { token, user.UserId });
         }
 
-        // GET: api/Users
-        [HttpGet]
+        [HttpGet("all")]
         [Authorize(Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("one/{email?}")]
+        [Authorize]
+        public async Task<ActionResult<User>> GetUser(string email)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name));
 
             if (user == null)
             {
@@ -85,18 +89,26 @@ namespace FridgeProject.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("edit/{id}")]
+        [Authorize]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.UserId)
             {
                 return BadRequest();
             }
-
             _context.Entry(user).State = EntityState.Modified;
-            //_context.Entry(user).Collection(x => x.Services).IsModified = false;
+            _context.Entry(user).Property(x => x.Email).IsModified = false;
+            _context.Entry(user).Property(x => x.Password).IsModified = false;
+            var lists = _context.Entry(user).Collections.Where(x => x.GetType().Name == "List`1");
+            foreach (var list in lists)
+            {
+                list.IsModified = false;
+            }
+            if (HttpContext.User.IsInRole("User"))
+            {
+                _context.Entry(user).Property(x => x.Role).IsModified = false;
+            }
 
             try
             {
@@ -117,25 +129,24 @@ namespace FridgeProject.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(x => x.Products).Include(x => x.Subscribers).SingleOrDefaultAsync(x => x.UserId == id);
             if (user == null)
             {
                 return NotFound();
+            }
+
+            foreach(var product in user.Products)
+            {
+                _context.Products.Remove(product);
+            }
+
+            foreach (var subscriber in user.Subscribers)
+            {
+                _context.Subscribers.Remove(subscriber);
             }
 
             _context.Users.Remove(user);
