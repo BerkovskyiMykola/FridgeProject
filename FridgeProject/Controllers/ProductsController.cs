@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FridgeProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class ProductsController : ControllerBase
     {
         private readonly DataContext _context;
@@ -20,18 +21,18 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        // GET: api/Products
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        //OK
+        [HttpGet("all/{fridgeId}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int fridgeId)
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Where(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name).ToListAsync();
         }
 
-        // GET: api/Products/5
-        [HttpGet("{id}")]
+        //ОК
+        [HttpGet("one/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.SingleOrDefaultAsync(x => x.ProductId == id && x.User.Email == HttpContext.User.Identity.Name);
 
             if (product == null)
             {
@@ -41,8 +42,6 @@ namespace FridgeProject.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -83,11 +82,11 @@ namespace FridgeProject.Controllers
             return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
 
-        // DELETE: api/Products/5
-        [HttpDelete("{id}")]
+        //OK
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.SingleOrDefaultAsync(x => x.ProductId == id && x.User.Email == HttpContext.User.Identity.Name);
             if (product == null)
             {
                 return NotFound();
@@ -96,7 +95,7 @@ namespace FridgeProject.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool ProductExists(int id)

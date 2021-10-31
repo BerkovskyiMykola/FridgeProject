@@ -11,6 +11,7 @@ namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class FridgesController : ControllerBase
     {
         private readonly DataContext _context;
@@ -21,7 +22,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpGet("own/all/{email?}")]
-        [Authorize(Roles ="Admin,User")]
         public async Task<ActionResult<IEnumerable<Fridge>>> GetOwnFridges(string email)
         {
             return await _context.Fridges
@@ -30,18 +30,15 @@ namespace FridgeProject.Controllers
         }
 
         [HttpGet("shared/all/{email?}")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<IEnumerable<Fridge>>> GetSharedFridges(string email)
         {
             return await _context.Subscribers
-                .Include(x => x.Fridge).Include(x => x.User)
                 .Where(x => x.User.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name))
                 .Select(x => x.Fridge)
                 .ToListAsync();
         }
 
         [HttpGet("one/{id}")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Fridge>> GetFridge(int id)
         {
             var fridge = await _context.Fridges.Include(x => x.User).SingleOrDefaultAsync(x => x.FridgeId == id);
@@ -61,7 +58,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpPut("edit")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> PutFridge(Fridge model)
         {
             var fridge = await _context.Fridges.Include(x => x.User).SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId);
@@ -82,7 +78,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Fridge>> PostFridge(Fridge fridge)
         {
             if (HttpContext.User.IsInRole("User"))
@@ -100,7 +95,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> DeleteFridge(int id)
         {
             var fridge = await _context.Fridges.Include(x => x.User).Include(x => x.Subscribers).SingleOrDefaultAsync(x => x.FridgeId == id);

@@ -13,6 +13,7 @@ namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class SubscribersController : ControllerBase
     {
         private readonly DataContext _context;
@@ -23,7 +24,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpGet("all/{fridgeId}")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<IEnumerable>> GetSubscribers(int fridgeId)
         {
             return await _context.Subscribers
@@ -33,7 +33,6 @@ namespace FridgeProject.Controllers
         }
 
         [HttpPost("add")]
-        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Subscriber>> PostSubscriber(Subscriber subscriber)
         {
             if(subscriber.UserId == null || subscriber.FridgeId == null)
@@ -46,7 +45,7 @@ namespace FridgeProject.Controllers
                 return BadRequest("User is added");
             }
 
-            if (HttpContext.User.IsInRole("User") )
+            if (HttpContext.User.IsInRole("User"))
             {
                 var fridge = await _context.Fridges.Include(x => x.User)
                     .SingleOrDefaultAsync(x => x.FridgeId == subscriber.FridgeId && x.User.Email == HttpContext.User.Identity.Name);
