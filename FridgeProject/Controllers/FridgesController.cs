@@ -20,15 +20,26 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet("all/{email?}")]
+        [HttpGet("own/all/{email?}")]
         [Authorize(Roles ="Admin,User")]
-        public async Task<ActionResult<IEnumerable<Fridge>>> GetFridges(string email)
+        public async Task<ActionResult<IEnumerable<Fridge>>> GetOwnFridges(string email)
         {
             return await _context.Fridges
                 .Where(x => x.User.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name))
                 .ToListAsync();
         }
- 
+
+        [HttpGet("shared/all/{email?}")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<ActionResult<IEnumerable<Fridge>>> GetSharedFridges(string email)
+        {
+            return await _context.Subscribers
+                .Include(x => x.Fridge).Include(x => x.User)
+                .Where(x => x.User.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name))
+                .Select(x => x.Fridge)
+                .ToListAsync();
+        }
+
         [HttpGet("one/{id}")]
         [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Fridge>> GetFridge(int id)
