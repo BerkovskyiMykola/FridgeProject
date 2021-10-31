@@ -65,7 +65,7 @@ namespace FridgeProject.Controllers
 
             var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
 
-            return Ok(new { token, user.UserId });
+            return Ok(new { token, user.UserId, user.Email });
         }
 
         [HttpGet("all")]
@@ -126,11 +126,11 @@ namespace FridgeProject.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users.Include(x => x.Products).Include(x => x.Subscribers).SingleOrDefaultAsync(x => x.UserId == id);
@@ -152,7 +152,7 @@ namespace FridgeProject.Controllers
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool UserExists(int id)

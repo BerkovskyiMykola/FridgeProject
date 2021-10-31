@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FridgeProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FridgeProject.Controllers
 {
@@ -20,87 +20,96 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Fridge>>> GetFridges()
+        [HttpGet("all/{email?}")]
+        [Authorize(Roles ="Admin,User")]
+        public async Task<ActionResult<IEnumerable<Fridge>>> GetFridges(string email)
         {
-            return await _context.Fridges.ToListAsync();
+            return await _context.Fridges
+                .Where(x => x.User.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name))
+                .ToListAsync();
         }
-
  
-        [HttpGet("{id}")]
+        [HttpGet("one/{id}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Fridge>> GetFridge(int id)
         {
-            var fridge = await _context.Fridges.FindAsync(id);
+            var fridge = await _context.Fridges.Include(x => x.User).SingleOrDefaultAsync(x => x.FridgeId == id);
 
             if (fridge == null)
             {
                 return NotFound();
             }
 
+            if (HttpContext.User.IsInRole("User") && fridge.User.Email != HttpContext.User.Identity.Name)
+            {
+                return BadRequest("it is not your fridge");
+            }
+
+            fridge.User = null;
             return fridge;
         }
 
-        // PUT: api/Fridges/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFridge(int id, Fridge fridge)
+        [HttpPut("edit")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> PutFridge(Fridge model)
         {
-            if (id != fridge.FridgeId)
+            var fridge = await _context.Fridges.Include(x => x.User).SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId);
+
+            if (fridge == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(fridge).State = EntityState.Modified;
-
-            try
+            if (HttpContext.User.IsInRole("User") && fridge.User.Email != HttpContext.User.Identity.Name)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FridgeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest("it is not your fridge");
             }
 
-            return NoContent();
+            fridge.FridgeName = model.FridgeName;
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
-        // POST: api/Fridges
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("create")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Fridge>> PostFridge(Fridge fridge)
         {
+            if (HttpContext.User.IsInRole("User"))
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);
+
+                fridge.User = user;
+                fridge.UserId = user.UserId;
+            }
             _context.Fridges.Add(fridge);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetFridge", new { id = fridge.FridgeId }, fridge);
         }
 
-        // DELETE: api/Fridges/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> DeleteFridge(int id)
         {
-            var fridge = await _context.Fridges.FindAsync(id);
+            var fridge = await _context.Fridges.Include(x => x.User).Include(x => x.Subscribers).SingleOrDefaultAsync(x => x.FridgeId == id);
             if (fridge == null)
             {
                 return NotFound();
+            }
+            if (HttpContext.User.IsInRole("User") && fridge.User.Email != HttpContext.User.Identity.Name)
+            {
+                return BadRequest("it is not your fridge");
+            }
+            foreach (var subscriber in fridge.Subscribers)
+            {
+                _context.Subscribers.Remove(subscriber);
             }
 
             _context.Fridges.Remove(fridge);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool FridgeExists(int id)
-        {
-            return _context.Fridges.Any(e => e.FridgeId == id);
+            return Ok();
         }
     }
 }
