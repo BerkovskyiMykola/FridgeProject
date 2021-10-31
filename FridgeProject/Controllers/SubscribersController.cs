@@ -41,6 +41,11 @@ namespace FridgeProject.Controllers
                 return BadRequest();
             }
 
+            if(await _context.Subscribers.AnyAsync(x => x.UserId == subscriber.UserId && x.FridgeId == subscriber.FridgeId))
+            {
+                return BadRequest("User is added");
+            }
+
             if (HttpContext.User.IsInRole("User") )
             {
                 var fridge = await _context.Fridges.Include(x => x.User)
