@@ -106,7 +106,7 @@ namespace FridgeProject.Controllers
             return BadRequest();
         }
 
-        //+-
+        //OK
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -115,14 +115,6 @@ namespace FridgeProject.Controllers
             {
                 return NotFound();
             }
-
-            _context.Histories.Add(new History
-            {
-                ProductName = product.ProductName,
-                Date = DateTime.Now,
-                Amount = -product.Amount,
-                UserId = product.User.UserId
-            });
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
