@@ -21,14 +21,12 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        //OK
         [HttpGet("all/{added}/{fridgeId}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int fridgeId, bool added)
         {
             return await _context.Products.Where(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name && x.isAdded == added).ToListAsync();
         }
 
-        //ОК
         [HttpGet("one/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -42,36 +40,95 @@ namespace FridgeProject.Controllers
             return product;
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutProduct(int id, Product product)
-        //{
-        //    if (id != product.ProductId)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("edit")]
+        public async Task<IActionResult> PutProduct(Product model)
+        {
+            var product = await _context.Products.Include(x => x.User).SingleOrDefaultAsync(x => x.ProductId == model.ProductId && x.User.Email == HttpContext.User.Identity.Name);
 
-        //    _context.Entry(product).State = EntityState.Modified;
+            if(product == null)
+            {
+                return NotFound();
+            }
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            product.ProductName = model.ProductName;
+            product.ExpirationDate = model.ExpirationDate;
+            product.Description = model.Description;
+            
+            if(product.Amount < model.Amount && product.isAdded)
+            {
+                _context.Histories.Add(new History
+                {
+                    ProductName = model.ProductName,
+                    Date = DateTime.Now,
+                    Amount = model.Amount - product.Amount,
+                    UserId = product.User.UserId
+                });
+            }
 
-        //    return NoContent();
-        //}
+            product.Amount = model.Amount;
+            await _context.SaveChangesAsync();
 
-        //OK
+            return Ok();
+        }
+
+        [HttpPut("set/active/{productId}")]
+        public async Task<IActionResult> SetAdded(int productId)
+        {
+            var product = await _context.Products
+                .Include(x => x.User)
+                .SingleOrDefaultAsync(x => x.ProductId == productId && x.User.Email == HttpContext.User.Identity.Name && x.isAdded == false);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (product.Amount > 0)
+            {
+                _context.Histories.Add(new History
+                {
+                    ProductName = product.ProductName,
+                    Date = DateTime.Now,
+                    Amount = product.Amount,
+                    UserId = product.User.UserId
+                });
+            }
+
+            product.isAdded = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("throw/out/{productId}/{amount}")]
+        public async Task<IActionResult> ThrowOutProduct(int productId, int amount)
+        {
+            var product = await _context.Products.Include(x => x.User).SingleOrDefaultAsync(x => x.ProductId == productId && x.User.Email == HttpContext.User.Identity.Name);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if(product.Amount - amount < 0)
+            {
+                return BadRequest("you can't throw more than you have");
+            }
+
+            _context.Histories.Add(new History
+            {
+                ProductName = product.ProductName,
+                Date = DateTime.Now,
+                Amount = -amount,
+                UserId = product.User.UserId
+            });
+
+            product.Amount = product.Amount - amount;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPost("create/{isAdded}")]
         public async Task<ActionResult<Product>> PostProduct(Product product, bool isAdded)
         {
@@ -81,7 +138,12 @@ namespace FridgeProject.Controllers
                 .ThenInclude(x => x.User)
                 .SingleOrDefaultAsync(x => x.FridgeId == product.FridgeId);
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);
+            if(fridge == null)
+            {
+                return BadRequest("Fridge do not exist");
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);
 
             product.isAdded = isAdded;
 
@@ -91,13 +153,16 @@ namespace FridgeProject.Controllers
                 product.User = user;
                 _context.Products.Add(product);
 
-                _context.Histories.Add(new History
+                if (isAdded)
                 {
-                    ProductName = product.ProductName,
-                    Date = DateTime.Now,
-                    Amount = product.Amount,
-                    UserId = user.UserId
-                });
+                    _context.Histories.Add(new History
+                    {
+                        ProductName = product.ProductName,
+                        Date = DateTime.Now,
+                        Amount = product.Amount,
+                        UserId = user.UserId
+                    });
+                }
 
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
@@ -106,7 +171,6 @@ namespace FridgeProject.Controllers
             return BadRequest();
         }
 
-        //OK
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -120,11 +184,6 @@ namespace FridgeProject.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
         }
     }
 }

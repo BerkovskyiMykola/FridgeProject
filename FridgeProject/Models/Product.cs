@@ -16,7 +16,7 @@ namespace FridgeProject.Models
         [Required]
         [StringLength(256, MinimumLength = 2)]
         public string Description { get; set; }
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Amount { get; set; }
         public bool isAdded { get; set; }
 
