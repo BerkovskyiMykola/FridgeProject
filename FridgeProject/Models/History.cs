@@ -7,7 +7,7 @@ namespace FridgeProject.Models
     {
         public int HistoryId { get; set; }
         [Required]
-        [StringLength(50, MinimumLength = 2)]
+        [StringLength(30, MinimumLength = 2)]
         public string ProductName { get; set; }
         [Required]
         public DateTime Date { get; set; }

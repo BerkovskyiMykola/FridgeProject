@@ -99,7 +99,7 @@ namespace FridgeProject
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SubscriptionProject API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FridgeProject API v1"));
                 app.UseDeveloperExceptionPage();
             }
             else
