@@ -18,6 +18,12 @@ namespace FridgeProject.WorkerServices
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly TimeSpan interval = new(24, 0, 0);
 
+        public NotificationWorker(IHubContext<NotificationHub> hub, IServiceScopeFactory scopeFactory)
+        {
+            _hub = hub;
+            _scopeFactory = scopeFactory;
+        }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
