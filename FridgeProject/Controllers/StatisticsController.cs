@@ -29,9 +29,13 @@ namespace FridgeProject.Controllers
             }
 
             var statistic = _context.Histories
-                .Where(x => x.User.Email == HttpContext.User.Identity.Name)
+                .Where(x => x.User.Email == HttpContext.User.Identity.Name 
+                    && x.Date > model.StartDate 
+                    && x.Date < model.EndDate)
                 .GroupBy(x => x.ProductName)
-                .Select(x => new { x.Key, bought = x.Sum(y => y.Amount > 0 ? y.Amount : 0), throwOut = x.Sum(y => y.Amount < 0 ? y.Amount : 0) });
+                .Select(x => new { x.Key, 
+                    bought = x.Sum(y => y.Amount > 0 ? y.Amount : 0), 
+                    throwOut = x.Sum(y => y.Amount < 0 ? y.Amount : 0) });
 
             return Ok(statistic);
         }
