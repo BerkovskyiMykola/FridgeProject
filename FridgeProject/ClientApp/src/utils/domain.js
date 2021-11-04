@@ -1,1 +1,1 @@
-﻿export const CURRENT_DOMAIN = "https://localhost:44353";
+﻿export const CURRENT_DOMAIN = "https://localhost:44353/api";
