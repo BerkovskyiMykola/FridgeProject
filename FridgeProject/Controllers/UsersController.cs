@@ -35,13 +35,13 @@ namespace FridgeProject.Controllers
             {
                 return BadRequest("User with such Email exists");
             }
-
+            
             await _context.Users.AddAsync(new User() { 
                 Lastname = model.Lastname,
                 Firstname = model.Firstname,
                 Email = model.Email,
                 Password = GetPasswordHash(model.Password),
-                Role = model.Role
+                Role = HttpContext.User.IsInRole("Admin") ? model.Role : "User"
             });
             await _context.SaveChangesAsync();
 

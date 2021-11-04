@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import './custom.css'
 
