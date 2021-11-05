@@ -28,13 +28,10 @@ export default function Login(props) {
 
         if (checkBtn.context._errors.length === 0) {
             dispatch(login(email, password))
-                .then(() => {
-                    props.history.push("/refrigerators");
-                })
-                .catch(() => { });
+                .then(() => {  })
+                .catch(() => {  });
         }
     }
-
     if (isLoggedIn) {
         return <Redirect to="/refrigerators" />;
     }

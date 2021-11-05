@@ -48,7 +48,7 @@ namespace FridgeProject.Controllers
 
             var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
 
-            return Ok(new { token, user.UserId, user.Email });
+            return Ok(new { token, user.UserId, user.Email, user.Role });
         }
 
         [HttpPost("login")]
@@ -68,7 +68,7 @@ namespace FridgeProject.Controllers
 
             var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
 
-            return Ok(new { token, user.UserId, user.Email });
+            return Ok(new { token, user.UserId, user.Email, user.Role });
         }
 
         [HttpGet("all")]
