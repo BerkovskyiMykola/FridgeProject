@@ -11,6 +11,11 @@ export const register = (lastname, firstname, email, password, role) => (dispatc
                 type: REGISTER_SUCCESS,
             });
 
+            dispatch({
+                type: SET_MESSAGE,
+                payload: "SUCCESSFUL",
+            });
+
             return Promise.resolve();
         },
         (error) => {
@@ -39,11 +44,6 @@ export const login = (login, password) => (dispatch) => {
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: { user: data },
-            });
-
-            dispatch({
-                type: SET_MESSAGE,
-                payload: "SUCCESSFUL",
             });
 
             return Promise.resolve();
