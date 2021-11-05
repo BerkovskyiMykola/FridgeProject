@@ -35,17 +35,20 @@ namespace FridgeProject.Controllers
             {
                 return BadRequest("User with such Email exists");
             }
-            
-            await _context.Users.AddAsync(new User() { 
+            var user = new User()
+            {
                 Lastname = model.Lastname,
                 Firstname = model.Firstname,
                 Email = model.Email,
                 Password = GetPasswordHash(model.Password),
                 Role = HttpContext.User.IsInRole("Admin") ? model.Role : "User"
-            });
+            };
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
+
+            return Ok(new { token, user.UserId, user.Email });
         }
 
         [HttpPost("login")]

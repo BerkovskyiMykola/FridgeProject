@@ -37,7 +37,7 @@ export default function Register(props) {
             dispatch(
                 register(lastName, firstName, email, password, USER_ROLE)
             )
-            .then(() => { setSuccessful(true); })
+            .then(() => { setSuccessful(true); props.history.push("/refrigerators"); })
             .catch(() => { setSuccessful(false); });
         }
 
