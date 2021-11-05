@@ -51,7 +51,8 @@ export const login = (login, password) => (dispatch) => {
         (error) => {
             const message =
                 (error.response &&
-                    error.response.data) || error.response.data;
+                    error.response.data &&
+                    error.response.data.title) || error.response.data || error.response.data.title;
 
             dispatch({
                 type: LOGIN_FAIL,
