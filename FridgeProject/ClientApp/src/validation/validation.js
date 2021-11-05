@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { isEmail, isMobilePhone } from "validator";
+import { isEmail } from "validator";
 
 export const validateRequired = (value) => {
     if (!value) {

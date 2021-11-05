@@ -27,6 +27,12 @@ class AuthService {
             email,
             password,
             role
+        }).then((response) => {
+            if (response.data.token) {
+                sessionStorage.setItem("user", JSON.stringify(response.data));
+            }
+
+            return response.data;
         });
     }
 }
