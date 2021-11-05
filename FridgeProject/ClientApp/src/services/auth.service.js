@@ -4,9 +4,9 @@ import { CURRENT_DOMAIN } from "../utils/domain";
 const API_URL = CURRENT_DOMAIN + "/Users/";
 
 class AuthService {
-    login(login, password) {
+    login(email, password) {
         return axios
-            .post(API_URL + "login", { login, password })
+            .post(API_URL + "login", { email, password })
             .then((response) => {
                 if (response.data.token) {
                     sessionStorage.setItem("user", JSON.stringify(response.data));

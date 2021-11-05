@@ -2,11 +2,11 @@
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 
-const FormComponent = ({ setForm, handleRegister, successful, children, message, setCheckBtn }) => {
+const FormComponent = ({ setForm, handleSubmit, successful, children, message, setCheckBtn }) => {
 
     return (
         <Form
-            onSubmit={handleRegister}
+            onSubmit={handleSubmit}
             ref={setForm}
         >
             {!successful && (

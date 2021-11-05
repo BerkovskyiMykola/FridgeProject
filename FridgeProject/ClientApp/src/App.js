@@ -5,7 +5,7 @@ import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css'
 
-//import Login from "./components/Login";
+import Login from "./components/Login";
 import Register from "./components/Register";
 //import Profile from "./components/Profile";
 import { Home } from "./components/Home";
@@ -90,7 +90,7 @@ export default function App() {
                 <div className="container mt-3">
                     <Switch>
                         <Route exact path={["/", "/home"]} component={Home} />
-                        {/*<Route exact path="/login" component={Login} />*/}
+                        <Route exact path="/login" component={Login} />
                         <Route exact path="/register" component={Register} />
                         {/*<Route exact path="/profile" component={Profile} />*/}
                     </Switch>

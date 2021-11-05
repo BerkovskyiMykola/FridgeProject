@@ -2,15 +2,13 @@
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { register } from "../../actions/auth";
+import { login } from "../../actions/auth";
 
 import profileImg from "../../img/avatar.png"
-import { validateRequired, validateEmail, validateField, validatePassword } from "../../validation/validation";
+import { validateRequired, validateEmail, validatePassword } from "../../validation/validation";
 import { Field, Form } from "../FormComponents";
 
-export default function Register(props) {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+export default function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [successful, setSuccessful] = useState(false);
@@ -24,27 +22,28 @@ export default function Register(props) {
         isLoggedIn: state.auth.isLoggedIn
     }), shallowEqual)
 
-    const handleRegister = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
 
         setSuccessful(false);
 
         form.validateAll();
 
-        const USER_ROLE = 'User';
-
         if (checkBtn.context._errors.length === 0) {
-            dispatch(
-                register(lastName, firstName, email, password, USER_ROLE)
-            )
-            .then(() => { setSuccessful(true); })
-            .catch(() => { setSuccessful(false); });
+            dispatch(login(email, password))
+                .then(() => {
+                    props.history.push("/refrigerators");
+                })
+                .catch(() => {
+                    setSuccessful(false);
+                });
+        } else {
+            setSuccessful(false);
         }
-
     }
 
     if (isLoggedIn) {
-        return <Redirect to="/refrigerators" />;
+        return <Redirect to="/profile" />;
     }
 
     return (
@@ -55,24 +54,20 @@ export default function Register(props) {
                     alt="profile-img"
                     className="profile-img-card"
                 />
-                <Form handleSubmit={handleRegister} setForm={(c) => { setForm(c); }}
+                <Form handleSubmit={handleLogin} setForm={(c) => { setForm(c); }}
                     successful={successful} message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
                         <Field title="Email" name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
-                        <Field title="First name" name="firstname" value={firstName}
-                            setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
-                        <Field title="Last name" name="lastname" value={lastName}
-                            setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
                         <Field title="Password" name="password" value={password}
                             setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Sign Up</button>
+                            <button className="btn btn-primary btn-block">Login</button>
                         </div>
                     </div>
                 </Form>
             </div>
         </div>
-    );
+    )
 }
