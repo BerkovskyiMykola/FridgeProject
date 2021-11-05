@@ -19,10 +19,7 @@ export const register = (lastname, firstname, email, password, role) => (dispatc
             return Promise.resolve();
         },
         (error) => {
-            const message = 
-                (error.response &&
-                    error.response.data && 
-                    error.response.data.title) || error.response.data || error.response.data.title;
+            const message = error.response.data.title || error.response.data;
 
             dispatch({
                 type: REGISTER_FAIL,
@@ -49,10 +46,7 @@ export const login = (login, password) => (dispatch) => {
             return Promise.resolve();
         },
         (error) => {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.title) || error.response.data || error.response.data.title;
+            const message = error.response.data.title || error.response.data;
 
             dispatch({
                 type: LOGIN_FAIL,
