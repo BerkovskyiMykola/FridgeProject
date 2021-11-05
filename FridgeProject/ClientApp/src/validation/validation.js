@@ -11,16 +11,6 @@ export const validateRequired = (value) => {
     }
 };
 
-export const validatePhone = (value) => {
-    if (!isMobilePhone(value)) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                Phone is invalid!
-            </div>
-        );
-    }
-};
-
 export const validateEmail = (value) => {
     if (!isEmail(value)) {
         return (
@@ -32,50 +22,20 @@ export const validateEmail = (value) => {
 };
 
 export const validateField = (value) => {
-    if (value.length > 24) {
+    if (value.length > 30 && value.length < 2) {
         return (
             <div className="alert alert-danger" role="alert">
-                The field must be between 1 and 24 characters.
+                The field must be between 2 and 30 characters.
             </div>
         );
     }
 };
 
 export const validatePassword = (value) => {
-    if (value.length < 8 || value.length > 16) {
+    if (value.length < 8 || value.length > 18) {
         return (
             <div className="alert alert-danger" role="alert">
-                The password must be between 8 and 16 characters.
-            </div>
-        );
-    }
-};
-
-export const validateLength30 = (value) => {
-    if (value.length > 30) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The field max length is 30.
-            </div>
-        );
-    }
-};
-
-export const validateLength256 = (value) => {
-    if (value.length > 256) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The field max length is 256.
-            </div>
-        );
-    }
-};
-
-export const validateRangeFromZeroToOne = (value) => {
-    if (value < 0 || value > 1) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The Range is must be between 0 and 1.
+                The password must be between 8 and 18 characters.
             </div>
         );
     }
