@@ -11,7 +11,6 @@ import { Field, Form } from "../FormComponents";
 export default function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [successful, setSuccessful] = useState(false);
     const [form, setForm] = useState(null);
     const [checkBtn, setCheckBtn] = useState(null);
 
@@ -25,8 +24,6 @@ export default function Login(props) {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        setSuccessful(false);
-
         form.validateAll();
 
         if (checkBtn.context._errors.length === 0) {
@@ -34,16 +31,12 @@ export default function Login(props) {
                 .then(() => {
                     props.history.push("/refrigerators");
                 })
-                .catch(() => {
-                    setSuccessful(false);
-                });
-        } else {
-            setSuccessful(false);
+                .catch(() => { });
         }
     }
 
     if (isLoggedIn) {
-        return <Redirect to="/profile" />;
+        return <Redirect to="/refrigerators" />;
     }
 
     return (
@@ -55,7 +48,7 @@ export default function Login(props) {
                     className="profile-img-card"
                 />
                 <Form handleSubmit={handleLogin} setForm={(c) => { setForm(c); }}
-                    successful={successful} message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
+                    message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
                         <Field title="Email" name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />

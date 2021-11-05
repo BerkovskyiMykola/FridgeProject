@@ -2,20 +2,17 @@
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 
-const FormComponent = ({ setForm, handleSubmit, successful, children, message, setCheckBtn }) => {
+const FormComponent = ({ setForm, handleSubmit, children, message, setCheckBtn }) => {
 
     return (
         <Form
             onSubmit={handleSubmit}
             ref={setForm}
         >
-            {!successful && (
-                children
-            )}
-
+            {children}
             {message && (
                 <div className="form-group">
-                    <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
+                    <div className="alert alert-danger" role="alert">
                         {message}
                     </div>
                 </div>

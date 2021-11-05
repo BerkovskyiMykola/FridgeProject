@@ -13,7 +13,6 @@ export default function Register(props) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [successful, setSuccessful] = useState(false);
     const [form, setForm] = useState(null);
     const [checkBtn, setCheckBtn] = useState(null);
 
@@ -27,8 +26,6 @@ export default function Register(props) {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        setSuccessful(false);
-
         form.validateAll();
 
         const USER_ROLE = 'User';
@@ -37,8 +34,8 @@ export default function Register(props) {
             dispatch(
                 register(lastName, firstName, email, password, USER_ROLE)
             )
-            .then(() => { setSuccessful(true); props.history.push("/refrigerators"); })
-            .catch(() => { setSuccessful(false); });
+            .then(() => { props.history.push("/refrigerators"); })
+            .catch(() => {  });
         }
 
     }
@@ -56,7 +53,7 @@ export default function Register(props) {
                     className="profile-img-card"
                 />
                 <Form handleSubmit={handleRegister} setForm={(c) => { setForm(c); }}
-                    successful={successful} message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
+                    message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
                         <Field title="Email" name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
