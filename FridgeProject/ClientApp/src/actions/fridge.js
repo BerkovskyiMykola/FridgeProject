@@ -43,30 +43,6 @@ export const getSharedFridges = () => (dispatch) => {
     )
 }
 
-export const getFridge = (id) => (dispatch) => {
-    return fridgeService.getFridge(id).then(
-        (responce) => {
-            dispatch({
-                type: GET_FRIDGE_SUCCESS,
-                payload: { fridge: responce.data }
-            });
-
-            return Promise.resolve();
-        },
-        (error) => {
-            if (error.response && error.response.status === 401) {
-                EventBus.dispatch("logout");
-            }
-
-            dispatch({
-                type: GET_FRIDGE_ERROR
-            });
-
-            return Promise.reject();
-        }
-    )
-}
-
 export const editFridge = (fridgeId, fridgeName) => (dispatch) => {
     return fridgeService.editFridge(fridgeId, fridgeName).then(
         (responce) => {
@@ -86,10 +62,7 @@ export const editFridge = (fridgeId, fridgeName) => (dispatch) => {
                 type: EDIT_FRIDGE_ERROR
             });
 
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.title) || error.response.data || error.response.data.title;
+            const message = error.response.data.title || error.response.data;
 
             dispatch({
                 type: SET_MESSAGE,
@@ -120,10 +93,7 @@ export const createFridge = (fridgeName, userId) => (dispatch) => {
                 type: CREATE_FRIDGE_ERROR
             });
 
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.title) || error.response.data || error.response.data.title;
+            const message = error.response.data.title || error.response.data;
 
             dispatch({
                 type: SET_MESSAGE,
@@ -154,10 +124,7 @@ export const deleteFridge = (id) => (dispatch) => {
                 type: DELETE_FRIDGE_ERROR
             });
 
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.title) || error.response.data || error.response.data.title;
+            const message = error.response.data.title || error.response.data;
 
             dispatch({
                 type: SET_MESSAGE,

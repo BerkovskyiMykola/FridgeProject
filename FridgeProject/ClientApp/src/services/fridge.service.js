@@ -12,10 +12,6 @@ class FridgeService {
         return axios.get(API_URL + "shared/all", { headers: authHeader() });
     }
 
-    getFridge(id) {
-        return axios.get(API_URL + "one/" + id, { headers: authHeader() });
-    }
-
     editFridge(fridgeId, fridgeName) {
         return axios.put(API_URL + "edit", { fridgeId, fridgeName }, { headers: authHeader() });
     }

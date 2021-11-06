@@ -10,13 +10,14 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import { Home } from "./components/Home";
 import NotFound from "./components/NotFound";
+import Fridge from "./components/Fridge/Fridge"
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
 import { history } from './utils/history';
 import EventBus from "./common/EventBus";
-import { useEffect } from "react";
+import { useEffect } from "react";;
 
 export default function App() {
     const dispatch = useDispatch();
@@ -94,6 +95,7 @@ export default function App() {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/profile" component={Profile} />
+                        <Route exact path="/refrigerators" component={Fridge} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>
