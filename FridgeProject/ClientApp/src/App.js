@@ -23,7 +23,7 @@ export default function App() {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => ({
-        user: state.auth.user
+        user: state.auth.user,
     }), shallowEqual)
 
     history.listen((location) => {
@@ -52,6 +52,11 @@ export default function App() {
                     </Link>
                     {user ? (
                         <div className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <Link to={"/fridges"} className="nav-link">
+                                    Fridges
+                                </Link>
+                            </li>
                             <li className="nav-item">
                                 <Link to={"/profile"} className="nav-link">
                                     Profile
@@ -95,7 +100,7 @@ export default function App() {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/profile" component={Profile} />
-                        <Route exact path="/refrigerators" component={Fridge} />
+                        <Route exact path="/fridges" component={Fridge} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>

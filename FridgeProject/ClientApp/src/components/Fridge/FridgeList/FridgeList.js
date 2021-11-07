@@ -2,7 +2,7 @@
 import { Container, Row, Col } from "reactstrap";
 import FridgeItem from '../FridgeItem/FridgeItem';
 
-const FridgeList = ({ fridges, deleteFridge, editFridge }) => {
+const FridgeList = ({ fridges, deleteFridge, editFridge, isOwnFridge }) => {
 
     if (fridges.length === 0) {
         return (
@@ -17,7 +17,9 @@ const FridgeList = ({ fridges, deleteFridge, editFridge }) => {
     return (
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
-                {fridges.map((fridge) => <FridgeItem editFridge={editFridge} deleteFridge={deleteFridge} key={fridge.fridgeId} {...fridge}/> )}
+                {fridges.map((fridge) => <FridgeItem
+                    isOwnFridge={isOwnFridge} editFridge={editFridge}
+                    deleteFridge={deleteFridge} key={fridge.fridgeId} {...fridge} />)}
             </Row>
         </Container>
     );

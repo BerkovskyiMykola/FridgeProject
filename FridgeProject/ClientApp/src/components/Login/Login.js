@@ -33,7 +33,7 @@ export default function Login(props) {
         }
     }
     if (isLoggedIn) {
-        return <Redirect to="/refrigerators" />;
+        return <Redirect to="/fridges" />;
     }
 
     return (

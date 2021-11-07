@@ -7,8 +7,9 @@ import { validateField, validateRequired } from '../../validation/validation';
 import { Field } from '../FormComponents';
 import FridgeList from './FridgeList/FridgeList';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import { Redirect } from 'react-router-dom';
 
-const Fridge = (props) => {
+const Fridge = () => {
     const [selectedTab, setSelectedTab] = useState("1");
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
@@ -20,11 +21,11 @@ const Fridge = (props) => {
 
     const dispatch = useDispatch();
 
-    const { ownFridges, sharedFridges, message, userId  } = useSelector(state => ({
+    const { ownFridges, sharedFridges, message, user  } = useSelector(state => ({
         ownFridges: state.fridge.ownFridges,
         sharedFridges: state.fridge.sharedFridges,
         message: state.message.message,
-        userId: state.auth.user.userId
+        user: state.auth.user
     }), shallowEqual)
 
     useEffect(() => {
@@ -33,7 +34,7 @@ const Fridge = (props) => {
     }, [dispatch])
 
     const createRecord = () => {
-        dispatch(createFridge(fridgeName, userId))
+        dispatch(createFridge(fridgeName, user.userId))
             .then(() => {
                 setModalAdd(false);
                 dispatch(clearMessage());
@@ -66,12 +67,27 @@ const Fridge = (props) => {
         setModalEdit(true);
     }
 
+    if (!user) {
+        return <Redirect to="/login" />;
+    }
+
     return (
         <Container>
             <Container>
                 <Row>
                     <Col className="text-left"><h3>Fridges</h3></Col>
-                    <Col className="text-right"><Button disabled={selectedTab === "2"} color="success" onClick={() => { setFridgeName(""); setFridgeId(0); dispatch(clearMessage()); setModalAdd(true);  }}>New Fridge</Button></Col>
+                    <Col className="text-right">
+                        <Button disabled={selectedTab === "2"} color="success"
+                            onClick={() => { setFridgeName(""); setFridgeId(0); dispatch(clearMessage()); setModalAdd(true); }}>
+                            New Fridge
+                        </Button>
+                        <Button onClick={() => {
+                            dispatch(getOwnFridges());
+                            dispatch(getSharedFridges())
+                        }}>
+                            <i className="fa fa-refresh" aria-hidden="true"></i>
+                        </Button>
+                    </Col>
                 </Row>
             </Container>
             <Nav fill tabs>
@@ -94,23 +110,23 @@ const Fridge = (props) => {
             </Nav>
             <TabContent activeTab={selectedTab}>
                 <TabPane tabId="1">
-                    <FridgeList fridges={ownFridges} deleteFridge={deleteRecord} editFridge={getFridgeValues}/>
+                    <FridgeList fridges={ownFridges} deleteFridge={deleteRecord} editFridge={getFridgeValues} isOwnFridge/>
                 </TabPane>
                 <TabPane tabId="2">
-                    <FridgeList fridges={sharedFridges}/>
+                    <FridgeList fridges={sharedFridges} isOwnFridge={false}/>
                 </TabPane>
             </TabContent>
             <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader="Add Fridge"
-                message={message} form={form} setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }} textButton="Create"
-                method={createRecord}
+                setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
+                textButton="Create" method={createRecord} form={form} message={message}
             >
                 <Field title="Fridge name" name="fridgename" value={fridgeName}
                     setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired, validateField]} />
             </ModalWindow>
 
             <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader="Edit Fridge"
-                message={message} form={form} setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }} textButton="Edit"
-                method={editRecord}
+                setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
+                method={editRecord} message={message} form={form} textButton="Edit"
             >
                 <Field title="Fridge name" name="fridgename" value={fridgeName}
                     setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired, validateField]} />
