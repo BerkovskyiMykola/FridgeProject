@@ -62,7 +62,7 @@ namespace FridgeProject.Controllers
             _context.Subscribers.Add(subscriber);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(subscriber);
         }
 
         [HttpDelete("delete/{id}")]
