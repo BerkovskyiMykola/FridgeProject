@@ -33,8 +33,23 @@ namespace FridgeProject.Controllers
                 .Select(x => new { x.SubscriberId, x.User.UserId, x.User.Email, x.User.Firstname, x.User.Lastname }).ToListAsync();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSubscriber(int id)
+        {
+            var subscriber = await _context.Subscribers
+                .Include(x => x.User)
+                .SingleOrDefaultAsync(x => x.SubscriberId == id && x.Fridge.User.Email == HttpContext.User.Identity.Name);
+
+            if (subscriber == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { subscriber.SubscriberId, subscriber.User.UserId, subscriber.User.Email, subscriber.User.Firstname, subscriber.User.Lastname });
+        }
+
         [HttpPost("add")]
-        public async Task<ActionResult<Subscriber>> PostSubscriber(SubscriberRequest model)
+        public async Task<IActionResult> PostSubscriber(SubscriberRequest model)
         {
             var fridge = await _context.Fridges
                 .Include(x => x.User)
@@ -62,7 +77,7 @@ namespace FridgeProject.Controllers
             _context.Subscribers.Add(subscriber);
             await _context.SaveChangesAsync();
 
-            return Ok(subscriber);
+            return CreatedAtAction("GetSubscriber", new { id = subscriber.SubscriberId }, subscriber);
         }
 
         [HttpDelete("delete/{id}")]
