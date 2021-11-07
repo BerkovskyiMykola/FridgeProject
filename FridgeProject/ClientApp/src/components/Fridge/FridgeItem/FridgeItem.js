@@ -2,7 +2,7 @@
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 
 
-const FridgeItem = ({ fridgeId, fridgeName}) => {
+const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge}) => {
     const [dropdownOpen, setOpen] = useState(false);
 
     return (
@@ -21,10 +21,10 @@ const FridgeItem = ({ fridgeId, fridgeName}) => {
                         <DropdownItem>
                             Open
                         </DropdownItem>
-                        <DropdownItem>
+                        <DropdownItem onClick={() => { editFridge(fridgeId, fridgeName) }}>
                             Edit
                         </DropdownItem>
-                        <DropdownItem>
+                        <DropdownItem onClick={() => { deleteFridge(fridgeId) }}>
                             Delete
                         </DropdownItem>
                     </DropdownMenu>

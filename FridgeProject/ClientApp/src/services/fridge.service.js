@@ -22,7 +22,7 @@ class FridgeService {
     }
 
     deleteFridge(id) {
-        return axios.post(API_URL + "delete/" + id, { headers: authHeader() });
+        return axios.delete(API_URL + "delete/" + id, { headers: authHeader() });
     }
 }
 

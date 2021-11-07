@@ -124,13 +124,6 @@ export const deleteFridge = (id) => (dispatch) => {
                 type: DELETE_FRIDGE_ERROR
             });
 
-            const message = error.response.data.title || error.response.data;
-
-            dispatch({
-                type: SET_MESSAGE,
-                payload: message,
-            });
-
             return Promise.reject();
         }
     )
