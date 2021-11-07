@@ -22,7 +22,7 @@ export const validateEmail = (value) => {
 };
 
 export const validateField = (value) => {
-    if (value.length > 30 && value.length < 2) {
+    if (value.length > 30 || value.length < 2) {
         return (
             <div className="alert alert-danger" role="alert">
                 The field must be between 2 and 30 characters.

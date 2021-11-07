@@ -31,8 +31,6 @@ export default function (state = initialState, action) {
                 ownFridges: state.ownFridges.filter(x => x.fridgeId !== payload.fridgeId)
             }
         case EDIT_FRIDGE_SUCCESS:
-            const item = state.ownFridges.find(x => x.fridgeId === payload.fridgeId)
-
             return {
                 ...state,
                 ownFridges: state.ownFridges.map(fridge => {

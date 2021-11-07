@@ -1,21 +1,34 @@
-﻿import React from 'react';
-import { CardTitle, Card, Col, CardText, Button } from "reactstrap";
+﻿import React, { useState } from 'react';
+import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 
 
-const FridgeItem = (props) => {
+const FridgeItem = ({ fridgeId, fridgeName}) => {
+    const [dropdownOpen, setOpen] = useState(false);
 
     return (
         <Col sm="4">
             <Card body>
-                <CardTitle tag="h5">
-                    Special Title Treatment
+                <CardTitle className="text-center" tag="h5">
+                    {fridgeName}
                 </CardTitle>
-                <CardText>
-                    With supporting text below as a natural lead-in to additional content.
-                </CardText>
-                <Button>
-                    Go somewhere
-                </Button>
+                <ButtonDropdown
+                    isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}
+                >
+                    <DropdownToggle caret>
+                        Click Me
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>
+                            Open
+                        </DropdownItem>
+                        <DropdownItem>
+                            Edit
+                        </DropdownItem>
+                        <DropdownItem>
+                            Delete
+                        </DropdownItem>
+                    </DropdownMenu>
+                </ButtonDropdown>
             </Card>
         </Col>
     );

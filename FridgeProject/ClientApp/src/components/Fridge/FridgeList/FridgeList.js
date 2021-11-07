@@ -1,20 +1,23 @@
 ﻿import React from 'react'
-import { Container, Row } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import FridgeItem from '../FridgeItem/FridgeItem';
 
-const FridgeList = (props) => {
+const FridgeList = ({ fridges }) => {
+
+    if (fridges.length === 0) {
+        return (
+            <Container style={{ backgroundColor: "#F2F2F2" }}>
+                <Row className="text-center">
+                    <Col className="col-12 my-5"><h2>Fridge list is empty</h2></Col>
+                </Row>
+            </Container>
+        );
+    }
 
     return (
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
-                <FridgeItem />
+                {fridges.map((fridge) => <FridgeItem key={fridge.fridgeId} {...fridge}/> )}
             </Row>
         </Container>
     );
