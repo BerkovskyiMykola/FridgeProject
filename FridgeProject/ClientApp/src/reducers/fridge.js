@@ -25,11 +25,6 @@ export default function (state = initialState, action) {
                 ...state,
                 ownFridges: [...state.ownFridges, payload.fridge]
             }
-        case CREATE_FRIDGE_SUCCESS:
-            return {
-                ...state,
-                ownFridges: [...state.ownFridges, payload.fridge]
-            }
         case DELETE_FRIDGE_SUCCESS:
             return {
                 ...state,
