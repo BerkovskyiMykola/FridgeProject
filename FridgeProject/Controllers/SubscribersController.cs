@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FridgeProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections;
+using FridgeProject.Models.Request;
 
 namespace FridgeProject.Controllers
 {
@@ -28,34 +29,36 @@ namespace FridgeProject.Controllers
         {
             return await _context.Subscribers
                 .Include(x => x.User)
-                .Where(x => x.FridgeId == fridgeId && (HttpContext.User.IsInRole("User") ? x.User.Email == HttpContext.User.Identity.Name : true))
+                .Where(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name)
                 .Select(x => new { x.SubscriberId, x.User.UserId, x.User.Email, x.User.Firstname, x.User.Lastname }).ToListAsync();
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult<Subscriber>> PostSubscriber(Subscriber subscriber)
+        public async Task<ActionResult<Subscriber>> PostSubscriber(SubscriberRequest model)
         {
-            if(subscriber.UserId == null || subscriber.FridgeId == null)
+            var fridge = await _context.Fridges
+                .Include(x => x.User)
+                .Include(x => x.Subscribers)
+                .SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId && x.User.Email == HttpContext.User.Identity.Name);
+
+            if(fridge == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            if(await _context.Subscribers.AnyAsync(x => x.UserId == subscriber.UserId && x.FridgeId == subscriber.FridgeId))
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (fridge.Subscribers.Any(x => x.User.Email == model.Email))
             {
                 return BadRequest("User is added");
             }
 
-            if (HttpContext.User.IsInRole("User"))
-            {
-                var fridge = await _context.Fridges.Include(x => x.User)
-                    .SingleOrDefaultAsync(x => x.FridgeId == subscriber.FridgeId && x.User.Email == HttpContext.User.Identity.Name);
-
-                if(fridge == null)
-                {
-                    return BadRequest();
-                }
-            }
-
+            var subscriber = new Subscriber { UserId = user.UserId, FridgeId = model.FridgeId };
             _context.Subscribers.Add(subscriber);
             await _context.SaveChangesAsync();
 
@@ -69,20 +72,15 @@ namespace FridgeProject.Controllers
                 .Include(x => x.User)
                 .Include(x => x.Fridge)
                 .ThenInclude(x => x.User)
-                .SingleOrDefaultAsync(x => x.SubscriberId == id);
+                .SingleOrDefaultAsync(x => x.SubscriberId == id && x.Fridge.User.Email == HttpContext.User.Identity.Name);
 
             if (subscriber == null)
             {
                 return NotFound();
             }
 
-            if (HttpContext.User.IsInRole("User") && subscriber.Fridge.User.Email != HttpContext.User.Identity.Name)
-            {
-                return BadRequest("it is not your subscriber");
-            }
-
             var products = await _context.Products
-                .Where(x => x.FridgeId == subscriber.FridgeId && x.User.Email == HttpContext.User.Identity.Name)
+                .Where(x => x.FridgeId == subscriber.FridgeId && x.User.Email == subscriber.User.Email)
                 .ToListAsync();
 
             foreach (var product in products)
