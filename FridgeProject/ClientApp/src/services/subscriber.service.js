@@ -5,16 +5,16 @@ import authHeader from "./auth-header";
 const API_URL = CURRENT_DOMAIN + "/Subscribers/";
 
 class SubscriberService {
-    getSubscribers(fridgeId) {
-        return axios.get(API_URL + "all/" + fridgeId, { headers: authHeader() });
+    getSubscribers(fridgeId, fridgeName) {
+        return axios.get(API_URL + "all/" + fridgeId + "/" + fridgeName, { headers: authHeader() });
     }
 
-    createSubscriber(email, fridgeId) {
-        return axios.post(API_URL + "add", { email, fridgeId }, { headers: authHeader() });
+    createSubscriber(email, fridgeId, fridgeName) {
+        return axios.post(API_URL + "add/" + fridgeName, { email, fridgeId }, { headers: authHeader() });
     }
 
-    deleteSubscriber(id) {
-        return axios.delete(API_URL + "delete/" + id, { headers: authHeader() });
+    deleteSubscriber(id, fridgeName) {
+        return axios.delete(API_URL + "delete/" + id + "/" + fridgeName, { headers: authHeader() });
     }
 }
 
