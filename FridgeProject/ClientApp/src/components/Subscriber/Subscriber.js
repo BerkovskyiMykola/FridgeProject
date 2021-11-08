@@ -10,13 +10,13 @@ import ModalWindow from '../ModalWindow/ModalWindow';
 import SubscriberList from './SubscriberList/SubscriberList';
 
 const Subscriber = (props) => {
-    const fridgeName = props.match.params.fridgeName;
     const fridgeId = props.match.params.fridgeId;
 
     const dispatch = useDispatch();
 
-    const { subscribers, message, user } = useSelector(state => ({
+    const { subscribers, message, user, fridgeName } = useSelector(state => ({
         subscribers: state.subscriber.subscribers,
+        fridgeName: state.subscriber.fridgeName,
         message: state.message.message,
         user: state.auth.user
     }), shallowEqual)
@@ -33,7 +33,7 @@ const Subscriber = (props) => {
     const [email, setEmail] = useState("");
 
     const createRecord = () => {
-        dispatch(createSubscriber(email, fridgeId, fridgeName))
+        dispatch(createSubscriber(email, fridgeId))
             .then(() => {
                 setModalAdd(false);
                 dispatch(clearMessage());
@@ -43,7 +43,7 @@ const Subscriber = (props) => {
     }
 
     const deleteRecord = (id) => {
-        dispatch(deleteSubscriber(id, fridgeName))
+        dispatch(deleteSubscriber(id))
             .then(() => { })
             .catch(() => { })
     }

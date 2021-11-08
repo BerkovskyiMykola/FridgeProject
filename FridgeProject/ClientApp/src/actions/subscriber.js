@@ -3,12 +3,12 @@ import { SET_MESSAGE } from "../constants/message";
 import { CREATE_SUBSCRIBER_ERROR, CREATE_SUBSCRIBER_SUCCESS, DELETE_SUBSCRIBER_ERROR, DELETE_SUBSCRIBER_SUCCESS, GET_SUBSCRIBERS_SUCCESS, GET_SUBSCRIBERS_ERROR } from "../constants/subscriber";
 import subscriberService from "../services/subscriber.service";
 
-export const getSubscribers = (fridgeId, fridgeName) => (dispatch) => {
-    return subscriberService.getSubscribers(fridgeId, fridgeName).then(
+export const getSubscribers = (fridgeId) => (dispatch) => {
+    return subscriberService.getSubscribers(fridgeId).then(
         (responce) => {
             dispatch({
                 type: GET_SUBSCRIBERS_SUCCESS,
-                payload: { subscribers: responce.data }
+                payload: { ...responce.data }
             });
 
             return Promise.resolve();
@@ -26,8 +26,8 @@ export const getSubscribers = (fridgeId, fridgeName) => (dispatch) => {
     )
 }
 
-export const createSubscriber = (email, fridgeId, fridgeName) => (dispatch) => {
-    return subscriberService.createSubscriber(email, fridgeId, fridgeName).then(
+export const createSubscriber = (email, fridgeId) => (dispatch) => {
+    return subscriberService.createSubscriber(email, fridgeId).then(
         (responce) => {
             dispatch({
                 type: CREATE_SUBSCRIBER_SUCCESS,
@@ -57,8 +57,8 @@ export const createSubscriber = (email, fridgeId, fridgeName) => (dispatch) => {
     )
 }
 
-export const deleteSubscriber = (id, fridgeName) => (dispatch) => {
-    return subscriberService.deleteSubscriber(id, fridgeName).then(
+export const deleteSubscriber = (id) => (dispatch) => {
+    return subscriberService.deleteSubscriber(id).then(
         (responce) => {
             dispatch({
                 type: DELETE_SUBSCRIBER_SUCCESS,
