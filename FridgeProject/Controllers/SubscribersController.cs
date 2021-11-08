@@ -24,13 +24,20 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet("all/{fridgeId}")]
-        public async Task<ActionResult<IEnumerable>> GetSubscribers(int fridgeId)
+        [HttpGet("all/{fridgeId}/{fridgeName}")]
+        public async Task<ActionResult<IEnumerable>> GetSubscribers(int fridgeId, string fridgeName)
         {
-            return await _context.Subscribers
+            var fridge = await _context.Fridges
+                .Include(x => x.Subscribers)
                 .Include(x => x.User)
-                .Where(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name)
-                .Select(x => new { x.SubscriberId, x.User.UserId, x.User.Email, x.User.Firstname, x.User.Lastname }).ToListAsync();
+                .SingleOrDefaultAsync(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name && x.FridgeName == fridgeName);
+            if(fridge == null)
+            {
+                return NotFound();
+            }
+
+            return fridge.Subscribers
+                .Select(x => new { x.SubscriberId, x.User.UserId, x.User.Email, x.User.Firstname, x.User.Lastname }).ToList();
         }
 
         [HttpGet("{id}")]
@@ -48,13 +55,13 @@ namespace FridgeProject.Controllers
             return Ok(new { subscriber.SubscriberId, subscriber.User.UserId, subscriber.User.Email, subscriber.User.Firstname, subscriber.User.Lastname });
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> PostSubscriber(SubscriberRequest model)
+        [HttpPost("add/{fridgeName}")]
+        public async Task<IActionResult> PostSubscriber(string fridgeName, SubscriberRequest model)
         {
             var fridge = await _context.Fridges
                 .Include(x => x.User)
                 .Include(x => x.Subscribers)
-                .SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId && x.User.Email == HttpContext.User.Identity.Name);
+                .SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId && x.User.Email == HttpContext.User.Identity.Name && x.FridgeName == fridgeName);
 
             if(fridge == null)
             {
@@ -80,14 +87,14 @@ namespace FridgeProject.Controllers
             return CreatedAtAction("GetSubscriber", new { id = subscriber.SubscriberId }, subscriber);
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteSubscriber(int id)
+        [HttpDelete("delete/{id}/{fridgeName}")]
+        public async Task<IActionResult> DeleteSubscriber(string fridgeName, int id)
         {
             var subscriber = await _context.Subscribers
                 .Include(x => x.User)
                 .Include(x => x.Fridge)
                 .ThenInclude(x => x.User)
-                .SingleOrDefaultAsync(x => x.SubscriberId == id && x.Fridge.User.Email == HttpContext.User.Identity.Name);
+                .SingleOrDefaultAsync(x => x.SubscriberId == id && x.Fridge.User.Email == HttpContext.User.Identity.Name && x.Fridge.FridgeName == fridgeName);
 
             if (subscriber == null)
             {
