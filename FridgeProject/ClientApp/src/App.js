@@ -18,6 +18,7 @@ import { clearMessage } from "./actions/message";
 import { history } from './utils/history';
 import EventBus from "./common/EventBus";
 import { useEffect } from "react";import Subscriber from "./components/Subscriber/Subscriber";
+import Product from "./components/Product/Product";
 ;
 
 export default function App() {
@@ -103,6 +104,7 @@ export default function App() {
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path="/fridges" component={Fridge} />
                         <Route exact path="/subscribers/:fridgeId" component={Subscriber} />
+                        <Route exact path="/products" component={Product} />
                         <Route exact path="/404"component={NotFound} />
                         <Route component={NotFound} />
                     </Switch>
