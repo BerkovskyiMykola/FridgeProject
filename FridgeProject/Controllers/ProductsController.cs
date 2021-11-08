@@ -21,13 +21,12 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet("all/{fridgeId}/{fridgeName}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAddedProducts(int fridgeId, string fridgeName)
+        [HttpGet("all/{fridgeId}")]
+        public async Task<IActionResult> GetAddedProducts(int fridgeId)
         {
             var fridge = await _context.Fridges
                 .Include(x => x.Products).ThenInclude(x => x.User)
-                .SingleOrDefaultAsync(x => x.FridgeId == fridgeId  
-                && x.FridgeName == fridgeName);
+                .SingleOrDefaultAsync(x => x.FridgeId == fridgeId);
 
             if(fridge == null)
             {
@@ -36,7 +35,11 @@ namespace FridgeProject.Controllers
 
             if (fridge.Subscribers.Any(x => x.User.Email == HttpContext.User.Identity.Name) || fridge.User.Email == HttpContext.User.Identity.Name)
             {
-                return fridge.Products.Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == true).ToList();
+                var responce = new {
+                    fridgeName = fridge.FridgeName,
+                    products = fridge.Products.Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == true).ToList()
+            };
+                return Ok(responce);
             }
 
             return BadRequest();
@@ -121,7 +124,7 @@ namespace FridgeProject.Controllers
             return Ok();
         }
 
-        [HttpPut("throw/out/{productId}/{amount}")]
+        [HttpPut("throwOut/{productId}/{amount}")]
         public async Task<IActionResult> ThrowOutProduct(int productId, int amount)
         {
             var product = await _context.Products.Include(x => x.User).SingleOrDefaultAsync(x => x.ProductId == productId && x.User.Email == HttpContext.User.Identity.Name);
@@ -189,7 +192,7 @@ namespace FridgeProject.Controllers
                 return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
             }
 
-            return BadRequest();
+            return BadRequest("you can not add in this fridge");
         }
 
         [HttpDelete("delete/{id}")]
