@@ -21,10 +21,31 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet("all/{added}/{fridgeId}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int fridgeId, bool added)
+        [HttpGet("all/{fridgeId}/{fridgeName}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetAddedProducts(int fridgeId, string fridgeName)
         {
-            return await _context.Products.Where(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name && x.isAdded == added).ToListAsync();
+            var fridge = await _context.Fridges
+                .Include(x => x.Products).ThenInclude(x => x.User)
+                .SingleOrDefaultAsync(x => x.FridgeId == fridgeId  
+                && x.FridgeName == fridgeName);
+
+            if(fridge == null)
+            {
+                return NotFound();
+            }
+
+            if (fridge.Subscribers.Any(x => x.User.Email == HttpContext.User.Identity.Name) || fridge.User.Email == HttpContext.User.Identity.Name)
+            {
+                return fridge.Products.Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == true).ToList();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("all/noAdded")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetNoAddedProducts()
+        {
+            return await _context.Products.Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == false).ToListAsync();
         }
 
         [HttpGet("one/{id}")]
