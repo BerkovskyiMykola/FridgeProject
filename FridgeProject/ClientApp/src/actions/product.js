@@ -31,7 +31,7 @@ export const createProduct = (productName, expirationDate, description, amount) 
         (responce) => {
             dispatch({
                 type: CREATE_PRODUCT_SUCCESS,
-                payload: { subscriber: responce.data }
+                payload: { product: responce.data }
             });
 
             return Promise.resolve();
@@ -112,12 +112,12 @@ export const throwOutProduct = (id, amount) => (dispatch) => {
     )
 }
 
-export const editProduct = (productName, expirationDate, description, amount) => (dispatch) => {
-    return productService.editProduct(productName, expirationDate, description, amount).then(
+export const editProduct = (productId, productName, expirationDate, description, amount) => (dispatch) => {
+    return productService.editProduct(productId, productName, expirationDate, description, amount).then(
         (responce) => {
             dispatch({
                 type: EDIT_PRODUCT_SUCCESS,
-                payload: { productName, expirationDate, description, amount }
+                payload: { productId, productName, expirationDate, description, amount }
             });
 
             return Promise.resolve();

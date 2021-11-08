@@ -21,8 +21,8 @@ class ProductService {
         return axios.put(API_URL + "throwOut/" + id + "/" + amount, { headers: authHeader() });
     }
 
-    editProduct(productName, expirationDate, description, amount) {
-        return axios.post(API_URL + "edit", { productName, expirationDate, description, amount }, { headers: authHeader() });
+    editProduct(productId, productName, expirationDate, description, amount) {
+        return axios.post(API_URL + "edit", { productId, productName, expirationDate, description, amount }, { headers: authHeader() });
     }
 }
 
