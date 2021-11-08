@@ -102,7 +102,8 @@ export default function App() {
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path="/fridges" component={Fridge} />
-                        <Route exact path="/subscribers" component={Subscriber} />
+                        <Route exact path="/subscribers/:fridgeName/:fridgeId" component={Subscriber} />
+                        <Route exact path="/404"component={NotFound} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>
