@@ -28,7 +28,7 @@ namespace FridgeProject.Controllers
         public async Task<ActionResult<IEnumerable>> GetSubscribers(int fridgeId, string fridgeName)
         {
             var fridge = await _context.Fridges
-                .Include(x => x.Subscribers)
+                .Include(x => x.Subscribers).ThenInclude(x => x.User)
                 .Include(x => x.User)
                 .SingleOrDefaultAsync(x => x.FridgeId == fridgeId && x.User.Email == HttpContext.User.Identity.Name && x.FridgeName == fridgeName);
             if(fridge == null)
@@ -40,27 +40,16 @@ namespace FridgeProject.Controllers
                 .Select(x => new { x.SubscriberId, x.User.UserId, x.User.Email, x.User.Firstname, x.User.Lastname }).ToList();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSubscriber(int id)
-        {
-            var subscriber = await _context.Subscribers
-                .Include(x => x.User)
-                .SingleOrDefaultAsync(x => x.SubscriberId == id && x.Fridge.User.Email == HttpContext.User.Identity.Name);
-
-            if (subscriber == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new { subscriber.SubscriberId, subscriber.User.UserId, subscriber.User.Email, subscriber.User.Firstname, subscriber.User.Lastname });
-        }
-
         [HttpPost("add/{fridgeName}")]
         public async Task<IActionResult> PostSubscriber(string fridgeName, SubscriberRequest model)
         {
+            if(model.Email == HttpContext.User.Identity.Name)
+            {
+                return BadRequest();
+            }
             var fridge = await _context.Fridges
                 .Include(x => x.User)
-                .Include(x => x.Subscribers)
+                .Include(x => x.Subscribers).ThenInclude(x => x.User)
                 .SingleOrDefaultAsync(x => x.FridgeId == model.FridgeId && x.User.Email == HttpContext.User.Identity.Name && x.FridgeName == fridgeName);
 
             if(fridge == null)
@@ -68,7 +57,7 @@ namespace FridgeProject.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email);
 
             if (user == null)
             {
@@ -84,7 +73,7 @@ namespace FridgeProject.Controllers
             _context.Subscribers.Add(subscriber);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSubscriber", new { id = subscriber.SubscriberId }, subscriber);
+            return Ok(new { subscriber.SubscriberId, subscriber.User.UserId, subscriber.User.Email, subscriber.User.Firstname, subscriber.User.Lastname });
         }
 
         [HttpDelete("delete/{id}/{fridgeName}")]
