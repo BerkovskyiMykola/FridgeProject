@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const SubscriberItem = ({ item, index }) => {
+const SubscriberItem = ({ item, index, deleteSubscriber }) => {
     return (
         <tr>
             <td>{index+1}</td>
@@ -8,7 +8,7 @@ const SubscriberItem = ({ item, index }) => {
             <td>{item.firstname + " " + item.lastname}</td>
             <td>
                 <button
-                    //onClick={() => onDeleteFridgeForEmail(refrigeratorId)}
+                    onClick={() => deleteSubscriber(item.subscriberId)}
                     className="btn btn-outline-danger btn-sm float-left">
                     <i className="fa fa-trash-o" />
                 </button>
