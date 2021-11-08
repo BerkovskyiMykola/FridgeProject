@@ -9,7 +9,7 @@ import FridgeList from './FridgeList/FridgeList';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { Redirect } from 'react-router-dom';
 
-const Fridge = () => {
+const Fridge = (props) => {
     const [selectedTab, setSelectedTab] = useState("1");
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
@@ -110,7 +110,7 @@ const Fridge = () => {
             </Nav>
             <TabContent activeTab={selectedTab}>
                 <TabPane tabId="1">
-                    <FridgeList fridges={ownFridges} deleteFridge={deleteRecord} editFridge={getFridgeValues} isOwnFridge/>
+                    <FridgeList history={props.history} fridges={ownFridges} deleteFridge={deleteRecord} editFridge={getFridgeValues} isOwnFridge/>
                 </TabPane>
                 <TabPane tabId="2">
                     <FridgeList fridges={sharedFridges} isOwnFridge={false}/>

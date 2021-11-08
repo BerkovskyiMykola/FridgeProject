@@ -2,7 +2,7 @@
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from "reactstrap";
 
 
-const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridge}) => {
+const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridge, history}) => {
     const [dropdownOpen, setOpen] = useState(false);
 
     return (
@@ -21,6 +21,9 @@ const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridg
                         <DropdownMenu>
                             <DropdownItem>
                                 Open
+                            </DropdownItem>
+                            <DropdownItem onClick={() => { history.push("/subscribers/" + fridgeName + "/" + fridgeId) }}>
+                                Subscribers
                             </DropdownItem>
                             <DropdownItem onClick={() => { editFridge(fridgeId, fridgeName); }}>
                                 Edit
