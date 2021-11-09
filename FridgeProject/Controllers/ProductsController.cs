@@ -24,8 +24,9 @@ namespace FridgeProject.Controllers
         [HttpGet("all/{fridgeId}")]
         public async Task<IActionResult> GetAddedProducts(int fridgeId)
         {
-            var fridge = await _context.Fridges
-                .Include(x => x.Products).ThenInclude(x => x.User)
+            var fridge = await _context.Fridges.Include(x => x.User)
+                .Include(x => x.Subscribers).ThenInclude(x => x.User)
+                .Include(x => x.Products)
                 .SingleOrDefaultAsync(x => x.FridgeId == fridgeId);
 
             if(fridge == null)
@@ -37,7 +38,10 @@ namespace FridgeProject.Controllers
             {
                 var responce = new {
                     fridgeName = fridge.FridgeName,
-                    products = fridge.Products.Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == true).ToList()
+                    products = fridge.Products
+                    .Where(x => x.User.Email == HttpContext.User.Identity.Name && x.isAdded == true)
+                    .Select(x => new { x.ProductId, x.ProductName, x.ExpirationDate, x.Description, x.Amount, x.UserId})
+                    .ToList()
             };
                 return Ok(responce);
             }
@@ -67,7 +71,9 @@ namespace FridgeProject.Controllers
         [HttpPut("edit")]
         public async Task<IActionResult> PutProduct(Product model)
         {
-            var product = await _context.Products.Include(x => x.User).SingleOrDefaultAsync(x => x.ProductId == model.ProductId && x.User.Email == HttpContext.User.Identity.Name);
+            var product = await _context.Products
+                .Include(x => x.User)
+                .SingleOrDefaultAsync(x => x.ProductId == model.ProductId && x.User.Email == HttpContext.User.Identity.Name);
 
             if(product == null)
             {
@@ -154,7 +160,7 @@ namespace FridgeProject.Controllers
         }
 
         [HttpPost("create/{isAdded}")]
-        public async Task<ActionResult<Product>> PostProduct(Product product, bool isAdded)
+        public async Task<IActionResult> PostProduct(Product product, bool isAdded)
         {
             var fridge = await _context.Fridges
                 .Include(x => x.User)
@@ -189,7 +195,7 @@ namespace FridgeProject.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+                return Ok(new { product.ProductId, product.ProductName, product.ExpirationDate, product.Description, product.Amount, product.UserId });
             }
 
             return BadRequest("you can not add in this fridge");
