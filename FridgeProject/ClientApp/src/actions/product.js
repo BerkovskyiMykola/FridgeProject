@@ -26,8 +26,8 @@ export const getAddedProducts = (fridgeId) => (dispatch) => {
     )
 }
 
-export const createProduct = (productName, expirationDate, description, amount) => (dispatch) => {
-    return productService.createProduct(productName, expirationDate, description, amount).then(
+export const createProduct = (fridgeId, productName, expirationDate, description, amount) => (dispatch) => {
+    return productService.createProduct(fridgeId, productName, expirationDate, description, amount).then(
         (responce) => {
             dispatch({
                 type: CREATE_PRODUCT_SUCCESS,

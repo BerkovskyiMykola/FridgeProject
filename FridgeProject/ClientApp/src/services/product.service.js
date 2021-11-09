@@ -9,8 +9,8 @@ class ProductService {
         return axios.get(API_URL + "all/" + fridgeId, { headers: authHeader() });
     }
 
-    createProduct(productName, expirationDate, description, amount) {
-        return axios.post(API_URL + "create/true", { productName, expirationDate, description, amount }, { headers: authHeader() });
+    createProduct(fridgeId, productName, expirationDate, description, amount) {
+        return axios.post(API_URL + "create/true", { fridgeId, productName, expirationDate, description, amount }, { headers: authHeader() });
     }
 
     deleteProduct(id) {

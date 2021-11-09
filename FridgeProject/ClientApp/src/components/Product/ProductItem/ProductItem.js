@@ -2,17 +2,19 @@
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, CardText } from "reactstrap";
 
 
-const ProductItem = ({  }) => {
+const ProductItem = ({ productId, productName, expirationDate, description, amount }) => {
     const [dropdownOpen, setOpen] = useState(false);
 
     return (
         <Col sm="4">
             <Card body>
                 <CardTitle className="text-center" tag="h5">
-                    ProductName
+                    {productName}
                 </CardTitle>
                 <CardText>
-                    Descrition
+                    <p>Expiration date: {new Date(expirationDate).toISOString().substring(0, 10)}</p>
+                    <p>Description: {description}</p>
+                    <p>Amount: {amount}</p>
                 </CardText>
                 <ButtonDropdown
                     isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}

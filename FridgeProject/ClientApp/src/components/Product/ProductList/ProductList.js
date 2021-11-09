@@ -17,9 +17,9 @@ const ProductList = ({ products }) => {
     return (
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
+                {
+                    products.map((product) => <ProductItem key={product.productId} {...product} />)
+                }
             </Row>
         </Container>
     );

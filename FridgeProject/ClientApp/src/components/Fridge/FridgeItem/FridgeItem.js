@@ -19,7 +19,7 @@ const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridg
                             Click Me
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem>
+                            <DropdownItem onClick={() => { history.push("/products/" + fridgeId) }}>
                                 Open
                             </DropdownItem>
                             <DropdownItem onClick={() => { history.push("/subscribers/" + fridgeId) }}>
