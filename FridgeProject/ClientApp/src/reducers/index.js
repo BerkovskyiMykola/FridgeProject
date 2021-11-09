@@ -4,11 +4,13 @@ import message from "./message";
 import fridge from "./fridge";
 import subscriber from "./subscriber";
 import product from "./product";
+import notification from "./notification";
 
 export default combineReducers({
     auth,
     message,
     fridge,
     subscriber,
-    product
+    product,
+    notification
 });
