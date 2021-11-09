@@ -14,7 +14,7 @@ namespace FridgeProject.Models
         [CurrentDate(ErrorMessage = "Date must be after or equal to current date")]
         public DateTime ExpirationDate { get; set; }
         [Required]
-        [StringLength(256, MinimumLength = 2)]
+        [StringLength(50, MinimumLength = 2)]
         public string Description { get; set; }
         [Range(0, int.MaxValue)]
         public int Amount { get; set; }
