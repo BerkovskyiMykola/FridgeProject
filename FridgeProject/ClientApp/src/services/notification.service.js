@@ -2,7 +2,7 @@
 import authHeader from './auth-header';
 import { CURRENT_DOMAIN } from "../utils/domain";
 
-const API_URL = CURRENT_DOMAIN + "/api/Notifications/";
+const API_URL = CURRENT_DOMAIN + "/Notifications/";
 
 class NotificationService {
     allNotifications() {
