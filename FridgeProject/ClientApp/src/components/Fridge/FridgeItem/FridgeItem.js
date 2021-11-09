@@ -34,7 +34,7 @@ const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridg
                         </DropdownMenu>
                     </ButtonDropdown>
                 ) : (
-                    <Button>Open</Button>
+                    <Button onClick={() => { history.push("/products/" + fridgeId) }}>Open</Button>
                 )}
             </Card>
         </Col>
