@@ -2,7 +2,7 @@
 import { Container, Row, Col } from "reactstrap";
 import ProductItem from '../ProductItem/ProductItem';
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, deleteProduct, editProduct, throwOutProduct }) => {
 
     if (products.length === 0) {
         return (
@@ -18,7 +18,7 @@ const ProductList = ({ products }) => {
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
                 {
-                    products.map((product) => <ProductItem key={product.productId} {...product} />)
+                    products.map((product) => <ProductItem throwOutProduct={throwOutProduct} deleteProduct={deleteProduct} editProduct={editProduct} key={product.productId} {...product} />)
                 }
             </Row>
         </Container>
