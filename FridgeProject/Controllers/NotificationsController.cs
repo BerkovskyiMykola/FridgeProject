@@ -32,29 +32,5 @@ namespace FridgeProject.Controllers
         {
             return await _context.Notifications.Where(u => u.User.Email == HttpContext.User.Identity.Name).OrderByDescending(x => x.Date).ToListAsync();
         }
-
-        [HttpPost("send")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateNotification(NotificationRequest request)
-        {
-            await _hub.Clients.All.SendAsync("Notify", request);
-
-            var users = _context.Users.Include(u => u.Notifications);
-
-            var notification = new Notification
-            {
-                Text = request.Text,
-                Date = request.Date
-            };
-
-            foreach (var user in users)
-            {
-                user.Notifications.Add(notification);
-
-            }
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
     }
 }

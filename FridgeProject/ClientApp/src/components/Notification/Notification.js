@@ -3,6 +3,7 @@ import * as SignalR from '@aspnet/signalr';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card, CardText, CardTitle } from "reactstrap";
 import { allNotifications } from '../../actions/notification';
+import { Redirect } from 'react-router-dom';
 
 const Notification = () => {
     const [arrivedNotifications, setArrivedNotifications] = useState([]);
@@ -15,6 +16,9 @@ const Notification = () => {
 
     useEffect(() => {
         dispatch(allNotifications());
+
+        const user = JSON.parse(sessionStorage.getItem("user"));
+
         const connection = new SignalR.HubConnectionBuilder()
             .withUrl('https://localhost:44353/hubs/notification', { accessTokenFactory: () => user.token })
             .build();
@@ -28,7 +32,11 @@ const Notification = () => {
             .then(() => { console.log("SignalR connected success"); })
             .catch((error) => console.log("SignalR connection error: " + error));
         return () => { connection.stop(); }
-    }, [dispatch, arrivedNotifications, user.token])
+    }, [dispatch, arrivedNotifications])
+
+    if (!user) {
+        return <Redirect to="/login" />;
+    }
 
     return (
         <Container style={{ backgroundColor: "#F2F2F2" }}>
