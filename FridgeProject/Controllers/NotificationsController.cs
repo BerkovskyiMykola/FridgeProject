@@ -30,7 +30,7 @@ namespace FridgeProject.Controllers
         [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
         {
-            return await _context.Notifications.Where(u => u.User.Email == HttpContext.User.Identity.Name).ToListAsync();
+            return await _context.Notifications.Where(u => u.User.Email == HttpContext.User.Identity.Name).OrderByDescending(x => x.Date).ToListAsync();
         }
 
         [HttpPost("send")]
