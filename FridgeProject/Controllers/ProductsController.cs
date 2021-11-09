@@ -140,9 +140,14 @@ namespace FridgeProject.Controllers
                 return NotFound();
             }
 
-            if(product.Amount - amount < 0)
+            if (amount == 0)
             {
-                return BadRequest("you can't throw more than you have");
+                return BadRequest("you can't throw out 0 products");
+            }
+
+            if (product.Amount - amount < 0)
+            {
+                return BadRequest("you can't throw out more than you have");
             }
 
             _context.Histories.Add(new History
