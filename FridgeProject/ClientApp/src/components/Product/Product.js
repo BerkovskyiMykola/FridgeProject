@@ -2,8 +2,11 @@
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Button } from "reactstrap";
+import { clearMessage } from '../../actions/message';
 import { createProduct, getAddedProducts } from '../../actions/product';
-import { validateField } from '../../validation/validation';
+import { validateDescription, validateField, validateRequired } from '../../validation/validation';
+import { Field } from '../FormComponents';
+import ModalWindow from '../ModalWindow/ModalWindow';
 import ProductList from './ProductList/ProductList';
 
 const Product = (props) => {
@@ -14,8 +17,8 @@ const Product = (props) => {
     const [form, setForm] = useState(null);
     const [checkBtn, setCheckBtn] = useState(null);
     const [productName, setProductName] = useState("");
-    const [expirationDate, setExpirationDate] = useState(new Date());
-    const [description, setDescription] = useState(null);
+    const [expirationDate, setExpirationDate] = useState(new Date().toISOString().substring(0, 10));
+    const [description, setDescription] = useState("");
     const [amount, setAmount] = useState(0);
 
     const dispatch = useDispatch();
@@ -33,15 +36,24 @@ const Product = (props) => {
             .catch(() => { props.history.push("/404") });
     }, [dispatch, fridgeId, props.history])
 
-    const createRecord = () => {
-        //dispatch(createProduct(email, fridgeId))
-        //    .then(() => {
-        //        setModalAdd(false);
-        //        dispatch(clearMessage());
-        //        setEmail("");
-        //    })
-        //    .catch(() => { })
+    const clearFields = () => {
+        dispatch(clearMessage());
+        setProductName("");
+        setExpirationDate(new Date().toISOString().substring(0, 10));
+        setDescription("");
+        setAmount(0);
     }
+
+    const createRecord = () => {
+        dispatch(createProduct(fridgeId, productName, expirationDate, description, amount))
+            .then(() => {
+                setModalAdd(false);
+                clearFields();
+            })
+            .catch(() => { })
+    }
+
+
 
     if (!user) {
         return <Redirect to="/login" />;
@@ -54,7 +66,7 @@ const Product = (props) => {
                     <Col className="text-left"><h3>Fridge: {fridgeName}</h3></Col>
                     <Col className="text-right">
                         <Button color="success"
-                            onClick={() => { setModalAdd(true); }}
+                            onClick={() => { setModalAdd(true); clearFields(); }}
                         >
                             New Product
                         </Button>
@@ -67,9 +79,13 @@ const Product = (props) => {
                 textButton="Create" method={createRecord} form={form} message={message}
             >
                 <Field title="Name of product" name="productName" value={productName}
-                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateField, validateField]} />
-                <Field title="Expiration date" name="expirationDate" value={expirationDate}
-                    setValue={(e) => { setExpirationDate(e.target.value) }} validations={} />
+                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
+                <Field title="Expiration date" name="expirationDate" value={expirationDate} type="date"
+                    setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date().toISOString().substring(0, 10)} />
+                <Field title="Description" name="description" value={description}
+                    setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
+                <Field title="Amount" name="amount" value={amount} type="number"
+                    setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
         </Container>
     );
