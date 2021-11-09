@@ -113,7 +113,7 @@ const Fridge = (props) => {
                     <FridgeList history={props.history} fridges={ownFridges} deleteFridge={deleteRecord} editFridge={getFridgeValues} isOwnFridge/>
                 </TabPane>
                 <TabPane tabId="2">
-                    <FridgeList fridges={sharedFridges} isOwnFridge={false}/>
+                    <FridgeList history={props.history} fridges={sharedFridges} isOwnFridge={false}/>
                 </TabPane>
             </TabContent>
             <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader="Add Fridge"
