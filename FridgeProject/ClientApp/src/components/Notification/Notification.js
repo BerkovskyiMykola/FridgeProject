@@ -42,10 +42,10 @@ const Notification = () => {
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
                 {arrivedNotifications.map((item) =>
-                    <Col key= { item.notificationId } sm="4">
+                    <Col key={item.date} sm="4">
                         <Card body>
                             <CardTitle className="text-center" tag="h5">
-                                {new Date(item.date).toLocaleDateString()}
+                                {new Date(item.date).toLocaleDateString() + " " + new Date(item.date).toLocaleTimeString()}
                             </CardTitle>
                             <CardText>
                                 {item.text}
@@ -54,10 +54,10 @@ const Notification = () => {
                     </Col>
                 )}
                 {notifications.map((item) =>
-                    <Col key={item.notificationId} sm="4">
+                    <Col key={item.date} sm="4">
                         <Card body>
                             <CardTitle className="text-center" tag="h5">
-                                {new Date(item.date).toLocaleDateString()}
+                                {new Date(item.date).toLocaleDateString() + " " + new Date(item.date).toLocaleTimeString()}
                             </CardTitle>
                             <CardText>
                                 {item.text}
