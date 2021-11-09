@@ -18,11 +18,11 @@ class ProductService {
     }
 
     throwOutProduct(id, amount) {
-        return axios.put(API_URL + "throwOut/" + id + "/" + amount, { headers: authHeader() });
+        return axios.put(API_URL + "throwOut/" + id + "/" + amount, {}, { headers: authHeader() });
     }
 
     editProduct(productId, productName, expirationDate, description, amount) {
-        return axios.post(API_URL + "edit", { productId, productName, expirationDate, description, amount }, { headers: authHeader() });
+        return axios.put(API_URL + "edit", { productId, productName, expirationDate, description, amount }, { headers: authHeader() });
     }
 }
 

@@ -48,7 +48,7 @@ export default function (state = initialState, action) {
                 products: state.products.map(product => {
                     if (product.productId === payload.productId)
                         return {
-                            ...product, amount: payload.amount
+                            ...product, amount: product.amount - payload.amount
                         }
                     return product;
                 })
