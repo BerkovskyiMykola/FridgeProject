@@ -21,6 +21,7 @@ import { useEffect } from "react";import Subscriber from "./components/Subscribe
 import Product from "./components/Product/Product";
 import Notification from "./components/Notification/Notification";
 import History from "./components/History/History";
+import Statistic from "./components/Statistic/Statistic";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -76,6 +77,11 @@ export default function App() {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to={"/statistic"} className="nav-link">
+                                    Statistic
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <a href="/login" className="nav-link" onClick={logOut}>
                                     LogOut
                                 </a>
@@ -116,6 +122,7 @@ export default function App() {
                         <Route exact path="/fridges" component={Fridge} />
                         <Route exact path="/histories" component={History} />
                         <Route exact path="/notifications" component={Notification} />
+                        <Route exact path="/statistic" component={Statistic} />
                         <Route exact path="/subscribers/:fridgeId" component={Subscriber} />
                         <Route exact path="/products/:fridgeId" component={Product} />
                         <Route exact path="/404"component={NotFound} />
