@@ -25,7 +25,7 @@ namespace FridgeProject.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<History>>> GetHistories()
         {
-            return await _context.Histories.Where(x => x.User.Email == HttpContext.User.Identity.Name).ToListAsync();
+            return await _context.Histories.Where(x => x.User.Email == HttpContext.User.Identity.Name).OrderByDescending(x => x.Date).ToListAsync();
         }
 
         [HttpDelete("delete/{id}")]

@@ -23,7 +23,7 @@ namespace FridgeProject.Controllers
             _context = context;
         }
 
-        [HttpGet("products")]
+        [HttpPost("products")]
         public IActionResult GetProductStatistic(RangeDateRequset model)
         {
             if (model.StartDate > model.EndDate)
@@ -44,7 +44,7 @@ namespace FridgeProject.Controllers
         }
 
         [HttpGet("checklist")]
-        public async Task<IActionResult> GetCheckListAsync()
+        public async Task<IActionResult> GetCheckList()
         {
             var user = await _context.Users
                 .Include(x => x.Histories)
