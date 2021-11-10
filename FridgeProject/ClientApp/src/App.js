@@ -20,6 +20,7 @@ import EventBus from "./common/EventBus";
 import { useEffect } from "react";import Subscriber from "./components/Subscriber/Subscriber";
 import Product from "./components/Product/Product";
 import Notification from "./components/Notification/Notification";
+import History from "./components/History/History";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -70,6 +71,11 @@ export default function App() {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to={"/histories"} className="nav-link">
+                                    Histories
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <a href="/login" className="nav-link" onClick={logOut}>
                                     LogOut
                                 </a>
@@ -108,6 +114,7 @@ export default function App() {
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/profile" component={Profile} />
                         <Route exact path="/fridges" component={Fridge} />
+                        <Route exact path="/histories" component={History} />
                         <Route exact path="/notifications" component={Notification} />
                         <Route exact path="/subscribers/:fridgeId" component={Subscriber} />
                         <Route exact path="/products/:fridgeId" component={Product} />
