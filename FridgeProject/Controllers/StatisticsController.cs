@@ -36,7 +36,7 @@ namespace FridgeProject.Controllers
                     && x.Date > model.StartDate 
                     && x.Date < model.EndDate)
                 .GroupBy(x => x.ProductName)
-                .Select(x => new { x.Key, 
+                .Select(x => new { productName = x.Key, 
                     bought = x.Sum(y => y.Amount > 0 ? y.Amount : 0), 
                     throwOut = x.Sum(y => y.Amount < 0 ? y.Amount : 0) });
 

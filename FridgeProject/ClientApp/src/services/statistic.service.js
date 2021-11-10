@@ -6,7 +6,7 @@ const API_URL = CURRENT_DOMAIN + "/Statistics/";
 
 class StatisticService {
     getProductStatistic(startDate, endDate) {
-        return axios.get(API_URL + "products", { startDate, endDate }, { headers: authHeader() });
+        return axios.post(API_URL + "products", { startDate, endDate }, { headers: authHeader() });
     }
 }
 
