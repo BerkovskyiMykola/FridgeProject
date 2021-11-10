@@ -56,12 +56,12 @@ namespace FridgeProject.Controllers
                 && x.Date <= DateTime.Today.AddDays(-DateTime.Today.Day)
                 ).ToList();
 
-            if (histories.Count() == 0)
+            if (histories.Any())
             {
                 return BadRequest("History is empty");
             }
 
-            var checkHistory = histories.GroupBy(x => x.Date.Month).Where(x => x.Count() != 0).Select(x => x.Key);
+            var checkHistory = histories.GroupBy(x => x.Date.Month).Where(x => x.Any()).Select(x => x.Key);
 
             var checkList = histories
                 .Where(x => checkHistory.Contains(x.Date.Month))
