@@ -28,7 +28,7 @@ namespace FridgeProject.Controllers
             return await _context.Histories.Where(x => x.User.Email == HttpContext.User.Identity.Name).ToListAsync();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteHistory(int id)
         {
             var history = await _context.Histories.SingleOrDefaultAsync(x => x.HistoryId == id && x.User.Email == HttpContext.User.Identity.Name);

@@ -5,6 +5,7 @@ import fridge from "./fridge";
 import subscriber from "./subscriber";
 import product from "./product";
 import notification from "./notification";
+import history from "./history";
 
 export default combineReducers({
     auth,
@@ -12,5 +13,6 @@ export default combineReducers({
     fridge,
     subscriber,
     product,
-    notification
+    notification,
+    history
 });
