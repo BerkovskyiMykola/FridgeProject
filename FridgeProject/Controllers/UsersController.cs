@@ -56,14 +56,9 @@ namespace FridgeProject.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == model.Email);
 
-            if (user == null)
+            if (user == null || user.Password != GetPasswordHash(model.Password))
             {
-                return BadRequest("User with such Email don`t exist");
-            }
-
-            if (user.Password != GetPasswordHash(model.Password))
-            {
-                return BadRequest("Invalid password");
+                return BadRequest("Email or password is incorrect");
             }
 
             var token = _jwtService.GetToken(new JwtUser { Login = user.Email, Role = user.Role });
@@ -166,7 +161,7 @@ namespace FridgeProject.Controllers
         private string GetPasswordHash(string password)
         {
             byte[] hash;
-            using (var sha1 = new SHA1CryptoServiceProvider())
+            using (var sha1 = new SHA256CryptoServiceProvider())
                 hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(hash);
 
