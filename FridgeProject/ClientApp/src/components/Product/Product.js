@@ -18,7 +18,7 @@ const Product = (props) => {
     const [form, setForm] = useState(null);
     const [checkBtn, setCheckBtn] = useState(null);
     const [productName, setProductName] = useState("");
-    const [expirationDate, setExpirationDate] = useState(new Date().toISOString().substring(0, 10));
+    const [expirationDate, setExpirationDate] = useState(new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10));
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState(0);
     const [productId, setProductId] = useState(0);
@@ -41,7 +41,7 @@ const Product = (props) => {
     const clearFields = () => {
         dispatch(clearMessage());
         setProductName("");
-        setExpirationDate(new Date().toISOString().substring(0, 10));
+        setExpirationDate(new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10));
         setDescription("");
         setAmount(0);
         setProductId(0);
@@ -125,7 +125,7 @@ const Product = (props) => {
                 <Field title="Name of product" name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
                 <Field title="Expiration date" name="expirationDate" value={expirationDate} type="date"
-                    setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date().toISOString().substring(0, 10)} />
+                    setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
                 <Field title="Description" name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
                 <Field title="Amount" name="amount" value={amount} type="number"
@@ -139,7 +139,7 @@ const Product = (props) => {
                 <Field title="Name of product" name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
                 <Field title="Expiration date" name="expirationDate" value={expirationDate} type="date"
-                    setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date().toISOString().substring(0, 10)} />
+                    setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
                 <Field title="Description" name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
                 <Field title="Amount" name="amount" value={amount} type="number"

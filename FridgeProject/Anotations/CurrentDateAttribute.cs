@@ -12,7 +12,7 @@ namespace FridgeProject.Anotations
         public override bool IsValid(object value)
         {
             var dt = (DateTime)value;
-            if (dt >= DateTime.Today)
+            if (dt >= DateTime.Today.AddDays(1))
             {
                 return true;
             }
