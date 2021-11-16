@@ -7,6 +7,7 @@ import product from "./product";
 import notification from "./notification";
 import history from "./history";
 import statistic from "./statistic";
+import user from "./user";
 
 export default combineReducers({
     auth,
@@ -16,5 +17,6 @@ export default combineReducers({
     product,
     notification,
     history,
-    statistic
+    statistic,
+    user
 });

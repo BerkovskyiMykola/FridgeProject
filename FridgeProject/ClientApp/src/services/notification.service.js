@@ -11,12 +11,5 @@ class NotificationService {
                 headers: authHeader()
             }).then(response => { return response.data });
     }
-
-    sendNotification(text, date) {
-        return axios.post(API_URL + "send", { text, date },
-            {
-                headers: authHeader()
-            });
-    }
 }
 export default new NotificationService();

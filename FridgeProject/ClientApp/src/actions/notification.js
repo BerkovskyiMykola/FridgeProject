@@ -1,5 +1,5 @@
 import NotificationService from "../services/notification.service";
-import { GET_NOTIFICATIONS_SUCCESS, GET_NOTIFICATIONS_ERROR, POST_NOTIFICATION_SUCCESS, POST_NOTIFICATION_ERROR  } from "../constants/notification";
+import { GET_NOTIFICATIONS_SUCCESS, GET_NOTIFICATIONS_ERROR  } from "../constants/notification";
 import EventBus from "../common/EventBus";
 
 export function allNotifications(){
@@ -22,28 +22,6 @@ export function allNotifications(){
         });
     }
 };
-
-export function sendNotification(text, date){
-    return (dispatch) =>{
-        return NotificationService.sendNotification(text, date).then(
-            (response) => {
-                dispatch({
-                    type: POST_NOTIFICATION_SUCCESS,
-                });
-                return Promise.resolve();
-            },
-            (error) => {
-                if (error.response && error.response.status === 401) {
-                    EventBus.dispatch("logout");
-                }
-                dispatch({
-                    type: POST_NOTIFICATION_ERROR
-                });
-                return Promise.reject();
-        }   );
-    }
-    
-}
 
 
 

@@ -75,7 +75,7 @@ namespace FridgeProject.Controllers
 
         [HttpGet("one/{email?}")]
         [Authorize]
-        public async Task<ActionResult<User>> GetUser(string email)
+        public async Task<IActionResult> GetUser(string email)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == (email != null && HttpContext.User.IsInRole("Admin") ? email : HttpContext.User.Identity.Name));
 
@@ -84,11 +84,11 @@ namespace FridgeProject.Controllers
                 return NotFound();
             }
 
-            return user;
+            return Ok(new { user.Lastname, user.Firstname });
         }
 
         [HttpPut("edit/{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.UserId)
@@ -102,10 +102,6 @@ namespace FridgeProject.Controllers
             foreach (var list in lists)
             {
                 list.IsModified = false;
-            }
-            if (HttpContext.User.IsInRole("User"))
-            {
-                _context.Entry(user).Property(x => x.Role).IsModified = false;
             }
 
             try
@@ -123,6 +119,24 @@ namespace FridgeProject.Controllers
                     throw;
                 }
             }
+
+            return Ok();
+        }
+
+        [HttpPut("edit/profile/{id}")]
+        [Authorize]
+        public async Task<IActionResult> PutUserProfile(int id, ProfileRequest profile)
+        {
+            if (id != profile.UserId)
+            {
+                return BadRequest();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            user.Lastname = profile.Lastname;
+            user.Firstname = profile.Firstname;
+
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
