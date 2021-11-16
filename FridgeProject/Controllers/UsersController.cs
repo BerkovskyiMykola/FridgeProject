@@ -12,6 +12,7 @@ using System.Text;
 using FridgeProject.Services.Authorization.Models;
 using Microsoft.AspNetCore.Authorization;
 using FridgeProject.Models.Request;
+using System.Collections;
 
 namespace FridgeProject.Controllers
 {
@@ -51,6 +52,28 @@ namespace FridgeProject.Controllers
             return Ok(new { token, user.UserId, user.Email, user.Role });
         }
 
+        [HttpPost("create")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PostUser(RegisterRequest model)
+        {
+            if (await _context.Users.AnyAsync(x => x.Email == model.Email))
+            {
+                return BadRequest("User with such Email exists");
+            }
+            var user = new User()
+            {
+                Lastname = model.Lastname,
+                Firstname = model.Firstname,
+                Email = model.Email,
+                Password = GetPasswordHash(model.Password),
+                Role = model.Role
+            };
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { user.UserId, user.Firstname, user.Lastname, user.Email, user.Role });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
@@ -68,9 +91,12 @@ namespace FridgeProject.Controllers
 
         [HttpGet("all")]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return Ok(await _context.Users
+                .Where(x => x.Email != HttpContext.User.Identity.Name)
+                .Select(x => new { x.UserId, x.Firstname, x.Lastname, x.Email, x.Role })
+                .ToListAsync());
         }
 
         [HttpGet("one/{email?}")]
@@ -89,36 +115,20 @@ namespace FridgeProject.Controllers
 
         [HttpPut("edit/{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(EditUserRequest model)
         {
-            if (id != user.UserId)
+            var user = await _context.Users.FindAsync(model.UserId);
+
+            if (user == null)
             {
-                return BadRequest();
-            }
-            _context.Entry(user).State = EntityState.Modified;
-            _context.Entry(user).Property(x => x.Email).IsModified = false;
-            _context.Entry(user).Property(x => x.Password).IsModified = false;
-            var lists = _context.Entry(user).Collections.Where(x => x.GetType().Name == "List`1");
-            foreach (var list in lists)
-            {
-                list.IsModified = false;
+                return NotFound();
             }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            user.Lastname = model.Lastname;
+            user.Firstname = model.Firstname;
+            user.Role = model.Role;
+
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

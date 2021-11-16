@@ -8,6 +8,7 @@ import notification from "./notification";
 import history from "./history";
 import statistic from "./statistic";
 import user from "./user";
+import admin from "./admin";
 
 export default combineReducers({
     auth,
@@ -18,5 +19,6 @@ export default combineReducers({
     notification,
     history,
     statistic,
-    user
+    user,
+    admin
 });

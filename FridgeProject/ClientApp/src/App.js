@@ -22,6 +22,7 @@ import Product from "./components/Product/Product";
 import Notification from "./components/Notification/Notification";
 import History from "./components/History/History";
 import Statistic from "./components/Statistic/Statistic";
+import User from "./components/Admin/User";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -56,6 +57,15 @@ export default function App() {
                     </Link>
                     {user ? (
                         <div className="navbar-nav ml-auto">
+                            {
+                                user.role == "Admin" ? (
+                                    <li className="nav-item">
+                                        <Link to={"/users"} className="nav-link">
+                                            Users
+                                        </Link>
+                                    </li>
+                                ) : (<></>)
+                            }
                             <li className="nav-item">
                                 <Link to={"/fridges"} className="nav-link">
                                     Fridges
@@ -123,6 +133,7 @@ export default function App() {
                         <Route exact path="/histories" component={History} />
                         <Route exact path="/notifications" component={Notification} />
                         <Route exact path="/statistic" component={Statistic} />
+                        <Route exact path="/users" component={User} />
                         <Route exact path="/subscribers/:fridgeId" component={Subscriber} />
                         <Route exact path="/products/:fridgeId" component={Product} />
                         <Route exact path="/404"component={NotFound} />
