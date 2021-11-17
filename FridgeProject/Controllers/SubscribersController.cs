@@ -14,7 +14,7 @@ namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
+    [Authorize(Roles = "User")]
     public class SubscribersController : ControllerBase
     {
         private readonly DataContext _context;
@@ -62,7 +62,7 @@ namespace FridgeProject.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email && x.Role != "Admin");
 
             if (user == null)
             {

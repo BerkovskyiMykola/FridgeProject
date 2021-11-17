@@ -27,7 +27,7 @@ namespace FridgeProject.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
         {
             return await _context.Notifications.Where(u => u.User.Email == HttpContext.User.Identity.Name).OrderByDescending(x => x.Date).ToListAsync();

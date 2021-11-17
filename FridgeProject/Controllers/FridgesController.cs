@@ -11,7 +11,7 @@ namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
+    [Authorize(Roles = "User")]
     public class FridgesController : ControllerBase
     {
         private readonly DataContext _context;

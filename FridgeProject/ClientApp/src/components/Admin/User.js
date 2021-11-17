@@ -84,7 +84,7 @@ const User = (props) => {
         return <Redirect to="/login" />;
     }
     if (user.role == "User") {
-        return <Redirect to="/fridge" />;
+        return <Redirect to="/fridges" />;
     }
 
     return (

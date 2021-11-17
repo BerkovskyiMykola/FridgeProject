@@ -59,43 +59,55 @@ export default function App() {
                         <div className="navbar-nav ml-auto">
                             {
                                 user.role == "Admin" ? (
-                                    <li className="nav-item">
+                                    <><li className="nav-item">
                                         <Link to={"/users"} className="nav-link">
                                             Users
                                         </Link>
                                     </li>
-                                ) : (<></>)
+                                    <li className="nav-item">
+                                        <Link to={"/profile"} className="nav-link">
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a href="/login" className="nav-link" onClick={logOut}>
+                                            LogOut
+                                        </a>
+                                    </li>
+                                    </>
+                                ) : (<>
+                                        <li className="nav-item">
+                                            <Link to={"/fridges"} className="nav-link">
+                                                Fridges
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/profile"} className="nav-link">
+                                                Profile
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/notifications"} className="nav-link">
+                                                Notifications
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/histories"} className="nav-link">
+                                                Histories
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/statistic"} className="nav-link">
+                                                Statistic
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a href="/login" className="nav-link" onClick={logOut}>
+                                                LogOut
+                                            </a>
+                                        </li>
+                                </>)
                             }
-                            <li className="nav-item">
-                                <Link to={"/fridges"} className="nav-link">
-                                    Fridges
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/profile"} className="nav-link">
-                                    Profile
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/notifications"} className="nav-link">
-                                    Notifications
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/histories"} className="nav-link">
-                                    Histories
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/statistic"} className="nav-link">
-                                    Statistic
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <a href="/login" className="nav-link" onClick={logOut}>
-                                    LogOut
-                                </a>
-                            </li>
                         </div>
                     ) : (
                         <Fragment>

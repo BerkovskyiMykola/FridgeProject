@@ -12,7 +12,7 @@ namespace FridgeProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User,Admin")]
+    [Authorize(Roles = "Admin")]
     public class HistoriesController : ControllerBase
     {
         private readonly DataContext _context;

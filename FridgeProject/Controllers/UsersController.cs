@@ -177,11 +177,6 @@ namespace FridgeProject.Controllers
             return Ok();
         }
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
-
         private string GetPasswordHash(string password)
         {
             byte[] hash;

@@ -38,6 +38,10 @@ const Notification = () => {
         return <Redirect to="/login" />;
     }
 
+    if (user.role == "Admin") {
+        return <Redirect to="/users" />;
+    }
+
     return (
         <Container style={{ backgroundColor: "#F2F2F2" }}>
             <Row>
