@@ -210,9 +210,21 @@ namespace FridgeProject.Controllers
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.Include(x => x.User).SingleOrDefaultAsync(x => x.ProductId == id && x.User.Email == HttpContext.User.Identity.Name);
+            
             if (product == null)
             {
                 return NotFound();
+            }
+
+            if(product.ExpirationDate < DateTime.Today)
+            {
+                _context.Histories.Add(new History
+                {
+                    ProductName = product.ProductName,
+                    Date = DateTime.Now,
+                    Amount = product.Amount,
+                    UserId = (int)product.UserId
+                });
             }
 
             _context.Products.Remove(product);
