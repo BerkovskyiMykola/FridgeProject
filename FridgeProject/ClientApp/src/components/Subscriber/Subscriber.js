@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Button, Row, Col } from 'reactstrap';
@@ -11,6 +12,7 @@ import SubscriberList from './SubscriberList/SubscriberList';
 
 const Subscriber = (props) => {
     const fridgeId = props.match.params.fridgeId;
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
@@ -60,18 +62,18 @@ const Subscriber = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>Subscribers of {fridgeName}</h3></Col>
+                    <Col className="text-left"><h3>{<Trans>{t("SubscribersOf")}</Trans>}{fridgeName}</h3></Col>
                     <Col className="text-right"><Button
                         onClick={() => { setEmail(""); dispatch(clearMessage()); setModalAdd(true); }}
-                        color="success">New Subscriber</Button></Col>
+                        color="success"><Trans>{t("NewSubscriber")}</Trans></Button></Col>
                 </Row>
             </Container>
             <SubscriberList deleteSubscriber={deleteRecord} subscribers={subscribers} />
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader="Add Subscriber"
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("AddSubscriber")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton="Create" method={createRecord} form={form} message={message}
+                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
-                <Field title="Email" name="email" value={email}
+                <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
                     setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
             </ModalWindow>
         </Container>

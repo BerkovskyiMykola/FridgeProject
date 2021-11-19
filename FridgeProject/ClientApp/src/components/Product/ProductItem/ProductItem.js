@@ -1,9 +1,11 @@
 ﻿import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, CardText } from "reactstrap";
 
 
 const ProductItem = ({ productId, productName, expirationDate, description, amount, deleteProduct, editProduct, throwOutProduct }) => {
     const [dropdownOpen, setOpen] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <Col sm="4">
@@ -12,27 +14,27 @@ const ProductItem = ({ productId, productName, expirationDate, description, amou
                     {productName}
                 </CardTitle>
                 <CardText>
-                    Expiration date: {new Date(expirationDate).toISOString().substring(0, 10)}
+                    {<Trans>{t("ExpirationDate")}</Trans>}: {new Date(expirationDate).toISOString().substring(0, 10)}
                     <br />
-                    Description: {description}
+                    {<Trans>{t("Description")}</Trans>}: {description}
                     <br />
-                    Amount: {amount}
+                    {<Trans>{t("Amount")}</Trans>}: {amount}
                 </CardText>
                 <ButtonDropdown
                     isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}
                 >
                     <DropdownToggle caret>
-                        Click Me
+                        {<Trans>{t("ClickMe")}</Trans>}
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem onClick={() => editProduct(productId, productName, expirationDate, description, amount)}>
-                            Edit
+                            {<Trans>{t("Edit")}</Trans>}
                         </DropdownItem>
                         <DropdownItem onClick={() => deleteProduct(productId) }>
-                            Delete
+                            {<Trans>{t("Delete")}</Trans>}
                         </DropdownItem>
                         <DropdownItem onClick={() => throwOutProduct(productId, amount)}>
-                            Throw out
+                            {<Trans>{t("ThrowOut")}</Trans>}
                         </DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>

@@ -1,9 +1,11 @@
 ﻿import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from "reactstrap";
 
 
 const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridge, history}) => {
     const [dropdownOpen, setOpen] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <Col sm="4">
@@ -16,25 +18,25 @@ const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridg
                         isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}
                     >
                         <DropdownToggle caret>
-                            Click Me
+                            <Trans>{t("ClickMe")}</Trans>
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem onClick={() => { history.push("/products/" + fridgeId) }}>
-                                Open
+                                <Trans>{t("Open")}</Trans>
                             </DropdownItem>
                             <DropdownItem onClick={() => { history.push("/subscribers/" + fridgeId) }}>
-                                Subscribers
+                                <Trans>{t("Subscribers")}</Trans>
                             </DropdownItem>
                             <DropdownItem onClick={() => { editFridge(fridgeId, fridgeName); }}>
-                                Edit
+                                <Trans>{t("Edit")}</Trans>
                             </DropdownItem>
                             <DropdownItem onClick={() => { deleteFridge(fridgeId); }}>
-                                Delete
+                                <Trans>{t("Delete")}</Trans>
                             </DropdownItem>
                         </DropdownMenu>
                     </ButtonDropdown>
                 ) : (
-                    <Button onClick={() => { history.push("/products/" + fridgeId) }}>Open</Button>
+                        <Button onClick={() => { history.push("/products/" + fridgeId) }}><Trans>{t("Open")}</Trans></Button>
                 )}
             </Card>
         </Col>

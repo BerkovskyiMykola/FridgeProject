@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import "./UserItem.css"
 
 const UserItem = ({ item, index, editUser, deleteUser }) => {
     const { firstname, lastname, email, role, userId } = item;

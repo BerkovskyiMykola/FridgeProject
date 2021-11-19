@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Button } from "reactstrap";
@@ -11,6 +12,7 @@ import ProductList from './ProductList/ProductList';
 
 const Product = (props) => {
     const fridgeId = props.match.params.fridgeId;
+    const { t } = useTranslation();
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
     const [modalThrowOut, setModalThrowOut] = useState(false);
@@ -109,12 +111,12 @@ const Product = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>Fridge: {fridgeName}</h3></Col>
+                    <Col className="text-left"><h3><Trans>{t("Fridge")}</Trans>: {fridgeName}</h3></Col>
                     <Col className="text-right">
                         <Button color="success"
                             onClick={() => { setModalAdd(true); clearFields(); }}
                         >
-                            New Product
+                            <Trans>{t("NewProduct")}</Trans>
                         </Button>
                     </Col>
                 </Row>
@@ -122,39 +124,39 @@ const Product = (props) => {
 
             <ProductList products={products} deleteProduct={deleteRecord} editProduct={getProductValues} throwOutProduct={getValuesForThrowOut}/>
 
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader="Add Product"
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("AddProduct")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton="Create" method={createRecord} form={form} message={message}
+                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
-                <Field title="Name of product" name="productName" value={productName}
+                <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
-                <Field title="Expiration date" name="expirationDate" value={expirationDate} type="date"
+                <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
-                <Field title="Description" name="description" value={description}
+                <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
-                <Field title="Amount" name="amount" value={amount} type="number"
+                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
 
-            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader="Edit Product"
+            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={<Trans>{t("EditProduct")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton="Edit" method={editRecord} form={form} message={message}
+                textButton={<Trans>{t("Edit")}</Trans>} method={editRecord} form={form} message={message}
             >
-                <Field title="Name of product" name="productName" value={productName}
+                <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
-                <Field title="Expiration date" name="expirationDate" value={expirationDate} type="date"
+                <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
-                <Field title="Description" name="description" value={description}
+                <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
-                <Field title="Amount" name="amount" value={amount} type="number"
+                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
 
-            <ModalWindow modal={modalThrowOut} deactiveModal={() => setModalThrowOut(false)} textHeader="Throw Out Product"
+            <ModalWindow modal={modalThrowOut} deactiveModal={() => setModalThrowOut(false)} textHeader={<Trans>{t("ThrowOutProduct")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton="Throw Out" method={throwOutRecord} form={form} message={message}
+                textButton={<Trans>{t("ThrowOut")}</Trans>} method={throwOutRecord} form={form} message={message}
             >
-                <Field title="Amount" name="amount" value={amount} type="number"
+                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
         </Container>

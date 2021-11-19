@@ -1,8 +1,10 @@
 ﻿import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, CardText} from "reactstrap";
 
 
 const StatisticItem = ({ productName, bought, throwOut}) => {
+    const { t } = useTranslation();
 
     return (
         <Col sm="4">
@@ -11,9 +13,9 @@ const StatisticItem = ({ productName, bought, throwOut}) => {
                     {productName}
                 </CardTitle>
                 <CardText>
-                    Bought: {bought}
+                    {<Trans>{t("Bought")}</Trans>}: {bought}
                     <br />
-                    Throw out: {throwOut}
+                    {<Trans>{t("Throw")}</Trans>}: {throwOut}
                 </CardText>
             </Card>
         </Col>

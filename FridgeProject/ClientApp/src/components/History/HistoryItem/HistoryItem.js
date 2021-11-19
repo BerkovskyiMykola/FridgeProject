@@ -1,8 +1,10 @@
 ﻿import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, CardText, Button} from "reactstrap";
 
 
 const HistoryItem = ({ historyId, productName, date, amount, deleteHistory}) => {
+    const { t } = useTranslation();
 
     return (
         <Col sm="4">
@@ -11,9 +13,9 @@ const HistoryItem = ({ historyId, productName, date, amount, deleteHistory}) => 
                     {new Date(date).toLocaleDateString() + " " + new Date(date).toLocaleTimeString()}
                 </CardTitle>
                 <CardText>
-                    Name of product: {productName}
+                    <Trans>{t("NameOfProduct")}</Trans>: {productName}
                     <br />
-                    Amount: {amount}
+                    <Trans>{t("Amount")}</Trans>: {amount}
                 </CardText>
                 <Button onClick={() => { deleteHistory(historyId) }}>Delete</Button>
             </Card>

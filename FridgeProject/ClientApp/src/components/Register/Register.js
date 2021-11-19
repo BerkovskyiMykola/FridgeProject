@@ -1,4 +1,5 @@
 ﻿import React, { useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -9,6 +10,7 @@ import { validateRequired, validateEmail, validateField, validatePassword } from
 import { Field, Form } from "../FormComponents";
 
 export default function Register(props) {
+    const { t } = useTranslation();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -55,17 +57,17 @@ export default function Register(props) {
                 <Form handleSubmit={handleRegister} setForm={(c) => { setForm(c); }}
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
-                        <Field title="Email" name="email" value={email}
+                        <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
-                        <Field title="First name" name="firstname" value={firstName}
+                        <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
                             setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
-                        <Field title="Last name" name="lastname" value={lastName}
+                        <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
                             setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
-                        <Field title="Password" name="password" value={password}
+                        <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
                             setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Sign Up</button>
+                            <button className="btn btn-primary btn-block"><Trans>{t("Sign Up")}</Trans></button>
                         </div>
                     </div>
                 </Form>

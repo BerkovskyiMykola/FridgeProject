@@ -60,10 +60,14 @@ export default function App() {
                     {user ? (
                             <><div className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <button onClick={() => { i18n.changeLanguage("en"); } }>en</button>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("EN"); }}>
+                                        EN
+                                    </a>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => { i18n.changeLanguage("ua"); } }>ua</button>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("ua"); }}>
+                                        UA
+                                    </a>
                                 </li>
                             </div>
                             <div className="navbar-nav ml-auto">
@@ -126,10 +130,14 @@ export default function App() {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => { i18n.changeLanguage("en") }}>en</button>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("EN"); }}>
+                                        EN
+                                    </a>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={() => { i18n.changeLanguage("ua") }}>ua</button>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("ua"); }}>
+                                        UA
+                                    </a>
                                 </li>
                             </div>
                             <div className="navbar-nav ml-auto">

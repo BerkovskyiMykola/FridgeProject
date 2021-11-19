@@ -1,14 +1,16 @@
 ﻿import React from 'react'
+import { Trans, useTranslation } from 'react-i18next';
 import { Container, Row, Col } from "reactstrap";
 import HistoryItem from '../HistoryItem/HistoryItem';
 
 const HistoryList = ({ histories, deleteHistory }) => {
+    const { t } = useTranslation();
 
     if (histories.length === 0) {
         return (
             <Container style={{ backgroundColor: "#F2F2F2" }}>
                 <Row className="text-center">
-                    <Col className="col-12 my-5"><h2>History list is empty</h2></Col>
+                    <Col className="col-12 my-5"><h2><Trans>{t("ListEmpty")}</Trans></h2></Col>
                 </Row>
             </Container>
         );

@@ -10,8 +10,10 @@ import { createUser, deleteUser, editUser, getUsers } from '../../actions/admin'
 import UserList from './UserList/UserList';
 import { clearMessage } from '../../actions/message';
 import datebaseService from '../../services/datebase.service';
+import { Trans, useTranslation } from 'react-i18next';
 
 const User = (props) => {
+    const { t } = useTranslation();
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
 
@@ -100,11 +102,11 @@ const User = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>Users</h3></Col>
+                    <Col className="text-left"><h3><Trans>{t("Users")}</Trans></h3></Col>
                     <Col className="text-right">
-                        <Button onClick={createBackup} color="info">Create backup</Button>
-                        <Button onClick={restoreDatabase} color="warning">Restore database</Button>
-                        <Button onClick={() => setModalAdd(true)} color="success">+ New User</Button>
+                        <Button onClick={createBackup} color="info"><Trans>{t("CreateBackup")}</Trans></Button>
+                        <Button onClick={restoreDatabase} color="warning"><Trans>{t("RestoreВatabase")}</Trans></Button>
+                        <Button onClick={() => setModalAdd(true)} color="success"><Trans>{t("NewUser")}</Trans></Button>
                         <Button onClick={() => {
                             dispatch(getUsers());
                         }}>
@@ -115,20 +117,20 @@ const User = (props) => {
             </Container>
             <UserList users={users} deleteUser={deleteRecord} editUser={getUserValues}/>
 
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader="Add User"
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("NewUser")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton="Create" method={createRecord} form={form} message={message}
+                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
-                <Field title="Email" name="email" value={email}
+                <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
                     setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
-                <Field title="First name" name="firstname" value={firstName}
+                <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
                     setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
-                <Field title="Last name" name="lastname" value={lastName}
+                <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
                     setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
-                <Field title="Password" name="password" value={password}
+                <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
                     setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
                 <div className="form-group">
-                    <label htmlFor="role">Role</label>
+                    <label htmlFor="role"><Trans>{t("Role")}</Trans></label>
                     <Select className="form-control" name="role" value={role} onChange={(e) => setRole(e.target.value)}>
                         <option value='User'>User</option>
                         <option value='Admin'>Admin</option>
@@ -136,17 +138,17 @@ const User = (props) => {
                 </div>
             </ModalWindow>
 
-            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader="Edit User"
+            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={<Trans>{t("EditUser")}</Trans>}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                method={editRecord} message={message} form={form} textButton="Edit"
+                method={editRecord} message={message} form={form} textButton={<Trans>{t("Edit")}</Trans>}
             >
-                <p>Email: {email}</p>
-                <Field title="First name" name="firstname" value={firstName}
+                <p><Trans>{t("Email")}</Trans>: {email}</p>
+                <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
                     setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
-                <Field title="Last name" name="lastname" value={lastName}
+                <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
                     setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
                 <div className="form-group">
-                    <label htmlFor="role">Role</label>
+                    <label htmlFor="role"><Trans>{t("Role")}</Trans></label>
                     <Select className="form-control" name="role" value={role} onChange={(e) => setRole(e.target.value)}>
                         <option value='User'>User</option>
                         <option value='Admin'>Admin</option>

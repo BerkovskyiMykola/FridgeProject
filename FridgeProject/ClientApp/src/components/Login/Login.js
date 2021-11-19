@@ -1,4 +1,5 @@
 ﻿import React, { useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -9,6 +10,7 @@ import { validateRequired, validateEmail, validatePassword } from "../../validat
 import { Field, Form } from "../FormComponents";
 
 export default function Login(props) {
+    const { t } = useTranslation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [form, setForm] = useState(null);
@@ -53,13 +55,13 @@ export default function Login(props) {
                 <Form handleSubmit={handleLogin} setForm={(c) => { setForm(c); }}
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
-                        <Field title="Email" name="email" value={email}
+                        <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
-                        <Field title="Password" name="password" value={password}
+                        <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
                             setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block">Login</button>
+                            <button className="btn btn-primary btn-block"><Trans>{t("Login")}</Trans></button>
                         </div>
                     </div>
                 </Form>

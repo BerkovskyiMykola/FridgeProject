@@ -4,8 +4,10 @@ import { Container, Row, Col } from "reactstrap";
 import { Redirect } from 'react-router-dom';
 import { deleteHistory, getHistories } from '../../actions/history';
 import HistoryList from './HistoryList/HistoryList';
+import { Trans, useTranslation } from 'react-i18next';
 
 const History = (props) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const { user, histories  } = useSelector(state => ({
@@ -35,7 +37,7 @@ const History = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>Histories</h3></Col>
+                    <Col className="text-left"><h3><Trans>{t("Histories")}</Trans></h3></Col>
                 </Row>
             </Container>
             <HistoryList histories={histories} deleteHistory={deleteRecord}/>
