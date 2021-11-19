@@ -23,8 +23,10 @@ import { clearMessage } from "./actions/message";
 
 import { history } from './utils/history';
 import EventBus from "./common/EventBus";
+import { Trans, useTranslation } from "react-i18next";
 
 export default function App() {
+    const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => ({
@@ -56,78 +58,90 @@ export default function App() {
                         FridgeProject
                     </Link>
                     {user ? (
-                        <div className="navbar-nav ml-auto">
-                            {
-                                user.role === "Admin" ? (
+                            <><div className="navbar-nav mr-auto">
+                                <li className="nav-item">
+                                    <button onClick={() => { i18n.changeLanguage("en"); } }>en</button>
+                                </li>
+                                <li className="nav-item">
+                                    <button onClick={() => { i18n.changeLanguage("ua"); } }>ua</button>
+                                </li>
+                            </div>
+                            <div className="navbar-nav ml-auto">
+                                {user.role === "Admin" ? (
                                     <><li className="nav-item">
                                         <Link to={"/users"} className="nav-link">
-                                            Users
+                                            <Trans>{t("Users")}</Trans>
                                         </Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link to={"/profile"} className="nav-link">
-                                            Profile
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="/login" className="nav-link" onClick={logOut}>
-                                            LogOut
-                                        </a>
-                                    </li>
-                                    </>
-                                ) : (<>
-                                        <li className="nav-item">
-                                            <Link to={"/fridges"} className="nav-link">
-                                                Fridges
-                                            </Link>
-                                        </li>
                                         <li className="nav-item">
                                             <Link to={"/profile"} className="nav-link">
-                                                Profile
-                                            </Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link to={"/notifications"} className="nav-link">
-                                                Notifications
-                                            </Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link to={"/histories"} className="nav-link">
-                                                Histories
-                                            </Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link to={"/statistic"} className="nav-link">
-                                                Statistic
+                                                <Trans>{t("Profile")}</Trans>
                                             </Link>
                                         </li>
                                         <li className="nav-item">
                                             <a href="/login" className="nav-link" onClick={logOut}>
-                                                LogOut
+                                                <Trans>{t("LogOut")}</Trans>
                                             </a>
                                         </li>
-                                </>)
-                            }
-                        </div>
+                                    </>
+                                ) : (<>
+                                    <li className="nav-item">
+                                        <Link to={"/fridges"} className="nav-link">
+                                            <Trans>{t("Fridges")}</Trans>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"/profile"} className="nav-link">
+                                            <Trans>{t("Profile")}</Trans>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"/notifications"} className="nav-link">
+                                            <Trans>{t("Notifications")}</Trans>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"/histories"} className="nav-link">
+                                            <Trans>{t("Histories")}</Trans>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"/statistic"} className="nav-link">
+                                            <Trans>{t("Statistic")}</Trans>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a href="/login" className="nav-link" onClick={logOut}>
+                                            <Trans>{t("LogOut")}</Trans>
+                                        </a>
+                                    </li>
+                                </>)}
+                            </div></>
                     ) : (
                         <Fragment>
                             <div className="navbar-nav mr-auto">
                                 <li className="nav-item">
                                     <Link to={"/home"} className="nav-link">
-                                        Home
+                                        <Trans>{t("Home")}</Trans>
                                     </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <button onClick={() => { i18n.changeLanguage("en") }}>en</button>
+                                </li>
+                                <li className="nav-item">
+                                    <button onClick={() => { i18n.changeLanguage("ua") }}>ua</button>
                                 </li>
                             </div>
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <Link to={"/login"} className="nav-link">
-                                        Login
+                                        <Trans>{t("Login")}</Trans>
                                     </Link>
                                 </li>
 
                                 <li className="nav-item">
                                     <Link to={"/register"} className="nav-link">
-                                        Sign Up
+                                        <Trans>{t("Sign Up")}</Trans>
                                     </Link>
                                 </li>
                             </div>
