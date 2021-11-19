@@ -38,7 +38,7 @@ const Notification = () => {
         return <Redirect to="/login" />;
     }
 
-    if (user.role == "Admin") {
+    if (user.role === "Admin") {
         return <Redirect to="/users" />;
     }
 

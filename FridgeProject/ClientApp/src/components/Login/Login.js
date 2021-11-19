@@ -16,9 +16,10 @@ export default function Login(props) {
 
     const dispatch = useDispatch();
 
-    const { message, isLoggedIn } = useSelector(state => ({
+    const { message, isLoggedIn, user } = useSelector(state => ({
         message: state.message.message,
-        isLoggedIn: state.auth.isLoggedIn
+        isLoggedIn: state.auth.isLoggedIn,
+        user: state.auth.user
     }), shallowEqual)
 
     const handleLogin = (e) => {
@@ -33,7 +34,12 @@ export default function Login(props) {
         }
     }
     if (isLoggedIn) {
-        return <Redirect to="/fridges" />;
+        if (user.role === "User") {
+            return <Redirect to="/fridges" />;
+        }
+        else if (user.role === "Admin") {
+            return <Redirect to="/users" />;
+        }
     }
 
     return (

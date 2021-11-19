@@ -9,6 +9,7 @@ import { Redirect } from 'react-router-dom';
 import { createUser, deleteUser, editUser, getUsers } from '../../actions/admin';
 import UserList from './UserList/UserList';
 import { clearMessage } from '../../actions/message';
+import datebaseService from '../../services/datebase.service';
 
 const User = (props) => {
     const [modalAdd, setModalAdd] = useState(false);
@@ -80,10 +81,18 @@ const User = (props) => {
         setModalEdit(true);
     }
 
+    const createBackup = () => {
+        datebaseService.backup().then(() => { alert("Success") }).catch(() => { alert("Error") });
+    }
+
+    const restoreDatabase = () => {
+        datebaseService.restore().then(() => { alert("Success") }).catch(() => { alert("Error") });
+    }
+
     if (!user) {
         return <Redirect to="/login" />;
     }
-    if (user.role == "User") {
+    if (user.role === "User") {
         return <Redirect to="/fridges" />;
     }
 
@@ -93,6 +102,8 @@ const User = (props) => {
                 <Row>
                     <Col className="text-left"><h3>Users</h3></Col>
                     <Col className="text-right">
+                        <Button onClick={createBackup} color="info">Create backup</Button>
+                        <Button onClick={restoreDatabase} color="warning">Restore database</Button>
                         <Button onClick={() => setModalAdd(true)} color="success">+ New User</Button>
                         <Button onClick={() => {
                             dispatch(getUsers());

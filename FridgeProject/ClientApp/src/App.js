@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Router, Switch, Route, Link } from "react-router-dom";
 
@@ -8,21 +8,21 @@ import './App.css'
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
-import { Home } from "./components/Home";
+import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Fridge from "./components/Fridge/Fridge"
+import Subscriber from "./components/Subscriber/Subscriber";
+import Product from "./components/Product/Product";
+import Notification from "./components/Notification/Notification";
+import History from "./components/History/History";
+import Statistic from "./components/Statistic/Statistic";
+import User from "./components/Admin/User";
 
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
 import { history } from './utils/history';
 import EventBus from "./common/EventBus";
-import { useEffect } from "react";import Subscriber from "./components/Subscriber/Subscriber";
-import Product from "./components/Product/Product";
-import Notification from "./components/Notification/Notification";
-import History from "./components/History/History";
-import Statistic from "./components/Statistic/Statistic";
-import User from "./components/Admin/User";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -31,11 +31,11 @@ export default function App() {
         user: state.auth.user,
     }), shallowEqual)
 
-    history.listen((location) => {
-        dispatch(clearMessage());
-    });
-
     useEffect(() => {
+        history.listen((location) => {
+            dispatch(clearMessage());
+        });
+
         EventBus.on("logout", () => {
             dispatch(logout());
         });
@@ -58,7 +58,7 @@ export default function App() {
                     {user ? (
                         <div className="navbar-nav ml-auto">
                             {
-                                user.role == "Admin" ? (
+                                user.role === "Admin" ? (
                                     <><li className="nav-item">
                                         <Link to={"/users"} className="nav-link">
                                             Users
