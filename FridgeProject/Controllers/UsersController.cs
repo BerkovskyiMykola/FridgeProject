@@ -185,5 +185,29 @@ namespace FridgeProject.Controllers
             return Convert.ToBase64String(hash);
 
         }
+
+        [HttpGet("backup")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Backup()
+        {
+            string dbname = _context.Database.GetDbConnection().Database;
+            if (System.IO.File.Exists($"C:\\Backup\\{dbname}.bak"))
+            {
+                System.IO.File.Delete($"C:\\Backup\\{dbname}.bak");
+            }
+            string sqlCommand = $"BACKUP DATABASE {dbname} TO DISK = 'C:\\Backup\\{dbname}.bak'";
+            await _context.Database.ExecuteSqlRawAsync(sqlCommand);
+            return Ok();
+        }
+
+        [HttpGet("restore")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Restore()
+        {
+            string dbname = _context.Database.GetDbConnection().Database;
+            string sqlCommand1 = $"USE master RESTORE DATABASE {dbname} FROM DISK = 'C:\\Backup\\{dbname}.bak'";
+            await _context.Database.ExecuteSqlRawAsync(sqlCommand1);
+            return Ok();
+        }
     }
 }
