@@ -59,7 +59,12 @@ i18n.use(LanguageDetector).init({
                 AddSubscriber: "Add Subscriber",
                 NewSubscriber: "New Subscriber",
                 SubscribersOf: "Subscribers of ",
-                "Hello, world!": "Hello, world!"
+                "Hello, world!": "Hello, world!",
+                "This field is required!": "This field is required!",
+                "This is not a valid email. Example: example@example.com": "This is not a valid email. Example: example@example.com",
+                "The field must be between 2 and 30 characters.": "The field must be between 2 and 30 characters.",
+                "The field must be between 2 and 50 characters.": "The field must be between 2 and 50 characters.",
+                "The password must be between 8 and 18 characters.": "The password must be between 8 and 18 characters.",
             }
         },
         ua: {
@@ -117,7 +122,12 @@ i18n.use(LanguageDetector).init({
                 AddSubscriber: "Добавити підписника",
                 NewSubscriber: "Новий підписник",
                 SubscribersOf: "Підписники холодильника ",
-                "Hello, world!": "Привіт, світ!"
+                "Hello, world!": "Привіт, світ!",
+                "This field is required!": "Це поле необхідне!",
+                "This is not a valid email. Example: example@example.com": "Це не валідна пошта. Наприклад: example@example.com",
+                "The field must be between 2 and 30 characters.": "Поле має містити від 2 до 30 символів.",
+                "The field must be between 2 and 50 characters.": "Поле має містити від 2 до 50 символів.",
+                "The password must be between 8 and 18 characters.": "Пароль має містити від 8 до 18 символів.",
             }
         }
     },

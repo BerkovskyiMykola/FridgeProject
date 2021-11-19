@@ -129,11 +129,11 @@ const Product = (props) => {
                 textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
                 <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
-                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
                 <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
-                    setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
+                    setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired(t), validateDescription(t)]} />
                 <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
@@ -143,11 +143,11 @@ const Product = (props) => {
                 textButton={<Trans>{t("Edit")}</Trans>} method={editRecord} form={form} message={message}
             >
                 <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
-                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
                 <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
-                    setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired, validateDescription]} />
+                    setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired(t), validateDescription(t)]} />
                 <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>

@@ -74,7 +74,7 @@ const Subscriber = (props) => {
                 textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
                 <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
-                    setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
+                    setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired(t), validateEmail(t)]} />
             </ModalWindow>
         </Container>
     );

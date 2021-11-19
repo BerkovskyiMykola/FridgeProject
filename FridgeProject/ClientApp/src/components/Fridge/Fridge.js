@@ -127,7 +127,7 @@ const Fridge = (props) => {
                 textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
                 <Field title={<Trans>{t("FridgeName")}</Trans>} name="fridgename" value={fridgeName}
-                    setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
             </ModalWindow>
 
             <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={<Trans>{t("EditFridge")}</Trans>}
@@ -135,7 +135,7 @@ const Fridge = (props) => {
                 method={editRecord} message={message} form={form} textButton={<Trans>{t("Edit")}</Trans>}
             >
                 <Field title={<Trans>{t("FridgeName")}</Trans>} name="fridgename" value={fridgeName}
-                    setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
             </ModalWindow>
         </Container>
     );

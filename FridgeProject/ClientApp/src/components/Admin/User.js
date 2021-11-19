@@ -122,13 +122,13 @@ const User = (props) => {
                 textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
             >
                 <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
-                    setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
+                    setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired(t), validateEmail(t)]} />
                 <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
-                    setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
-                    setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
-                    setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
+                    setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired(t), validatePassword(t)]} />
                 <div className="form-group">
                     <label htmlFor="role"><Trans>{t("Role")}</Trans></label>
                     <Select className="form-control" name="role" value={role} onChange={(e) => setRole(e.target.value)}>
@@ -144,9 +144,9 @@ const User = (props) => {
             >
                 <p><Trans>{t("Email")}</Trans>: {email}</p>
                 <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
-                    setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
-                    setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired, validateField]} />
+                    setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                 <div className="form-group">
                     <label htmlFor="role"><Trans>{t("Role")}</Trans></label>
                     <Select className="form-control" name="role" value={role} onChange={(e) => setRole(e.target.value)}>

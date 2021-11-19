@@ -56,9 +56,9 @@ export default function Login(props) {
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
                         <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
-                            setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired, validateEmail]} />
+                            setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired(t), validateEmail(t)]} />
                         <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
-                            setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired, validatePassword]} />
+                            setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired(t), validatePassword(t)]} />
 
                         <div className="form-group">
                             <button className="btn btn-primary btn-block"><Trans>{t("Login")}</Trans></button>

@@ -62,9 +62,9 @@ export default function Profile(props) {
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
                         <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstname}
-                            setValue={(e) => { setFirstname(e.target.value) }} validations={[validateRequired, validateField]} />
+                            setValue={(e) => { setFirstname(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
                         <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastname}
-                            setValue={(e) => { setLastname(e.target.value) }} validations={[validateRequired, validateField]} />
+                            setValue={(e) => { setLastname(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
 
                         <div className="form-group">
                             <button className="btn btn-primary btn-block"><Trans>{t("Edit")}</Trans></button>
