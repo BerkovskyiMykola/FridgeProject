@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import {  useTranslation } from "react-i18next";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -57,17 +57,17 @@ export default function Register(props) {
                 <Form handleSubmit={handleRegister} setForm={(c) => { setForm(c); }}
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
-                        <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
+                        <Field title={t("Email")} name="email" value={email}
                             setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired(t), validateEmail(t)]} />
-                        <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstName}
+                        <Field title={t("Firsname")} name="firstname" value={firstName}
                             setValue={(e) => { setFirstName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
-                        <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastName}
+                        <Field title={t("Lastname")} name="lastname" value={lastName}
                             setValue={(e) => { setLastName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
-                        <Field title={<Trans>{t("Password")}</Trans>} name="password" value={password}
+                        <Field title={t("Password")} name="password" value={password}
                             setValue={(e) => { setPassword(e.target.value) }} validations={[validateRequired(t), validatePassword(t)]} />
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block"><Trans>{t("Sign Up")}</Trans></button>
+                            <button className="btn btn-primary btn-block">{t("Sign Up")}</button>
                         </div>
                     </div>
                 </Form>

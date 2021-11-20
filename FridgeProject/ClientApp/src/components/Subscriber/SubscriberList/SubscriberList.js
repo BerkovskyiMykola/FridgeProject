@@ -1,5 +1,5 @@
 ﻿import React from 'react'
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 import { Table, Container, Row, Col } from "reactstrap";
 import SubscriberItem from '../SubscriberItem/SubscriberItem';
 
@@ -10,7 +10,7 @@ const SubscriberList = ({ subscribers, deleteSubscriber }) => {
         return (
             <Container style={{ backgroundColor: "#F2F2F2" }}>
                 <Row className="text-center">
-                    <Col className="col-12 my-5"><h2><Trans>{t("ListEmpty")}</Trans></h2></Col>
+                    <Col className="col-12 my-5"><h2>{t("ListEmpty")}</h2></Col>
                 </Row>
             </Container>
         );
@@ -21,9 +21,9 @@ const SubscriberList = ({ subscribers, deleteSubscriber }) => {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th><Trans>{t("Email")}</Trans></th>
-                    <th><Trans>{t("Fullname")}</Trans></th>
-                    <th><Trans>{t("functions")}</Trans></th>
+                    <th>{t("Email")}</th>
+                    <th>{t("Fullname")}</th>
+                    <th>{t("functions")}</th>
                 </tr>
             </thead>
             <tbody>

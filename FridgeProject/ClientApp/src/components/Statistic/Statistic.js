@@ -7,7 +7,7 @@ import { Field } from '../FormComponents';
 import StatisticList from './StatisticList/StatisticList';
 import { clearMessage } from '../../actions/message';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 
 const Statistic = (props) => {
     const { t } = useTranslation();
@@ -52,24 +52,24 @@ const Statistic = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>{<Trans>{t("Statistic")}</Trans>}</h3></Col>
+                    <Col className="text-left"><h3>{t("Statistic")}</h3></Col>
                     <Col className="text-right">
                         <Button color="success"
                             onClick={() => { setModal(true); clearFields(); }}
                         >
-                            <Trans>{t("GetStatistic")}</Trans>
+                            {t("GetStatistic")}
                         </Button>
                     </Col>
                 </Row>
             </Container>
             <StatisticList statistic={statistic} />
-            <ModalWindow modal={modal} deactiveModal={() => setModal(false)} textHeader={<Trans>{t("Statistic")}</Trans>}
+            <ModalWindow modal={modal} deactiveModal={() => setModal(false)} textHeader={t("Statistic")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("Get")}</Trans>} method={getStatistic} form={form} message={message}
+                textButton={t("Get")} method={getStatistic} form={form} message={message}
             >
-                <Field title={<Trans>{t("StartDate")}</Trans>} name="startDate" value={startDate} type="date"
+                <Field title={t("StartDate")} name="startDate" value={startDate} type="date"
                     setValue={(e) => { setStartDate(e.target.value) }} />
-                <Field title={<Trans>{t("EndDate")}</Trans>} name="endDate" value={endDate} type="date"
+                <Field title={t("EndDate")} name="endDate" value={endDate} type="date"
                     setValue={(e) => { setEndDate(e.target.value) }} />
             </ModalWindow>
         </Container>

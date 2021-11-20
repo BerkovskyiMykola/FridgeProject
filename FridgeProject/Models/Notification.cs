@@ -7,8 +7,12 @@ namespace FridgeProject.Models
     {
         public int NotificationId { get; set; }
         [Required]
-        [StringLength(256, MinimumLength = 2)]
-        public string Text { set; get; }
+        [StringLength(30, MinimumLength = 2)]
+        public string ProductName { set; get; }
+        [Required]
+        [StringLength(30, MinimumLength = 2)]
+        public string FridgeName { set; get; }
+        public bool IsExpired { get; set; }
         [Required]
         public DateTime Date { set; get; }
         public int UserId { get; set; }

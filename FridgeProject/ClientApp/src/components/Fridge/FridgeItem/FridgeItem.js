@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from "reactstrap";
 
 
@@ -18,25 +18,25 @@ const FridgeItem = ({ fridgeId, fridgeName, deleteFridge, editFridge, isOwnFridg
                         isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}
                     >
                         <DropdownToggle caret>
-                            <Trans>{t("ClickMe")}</Trans>
+                            {t("ClickMe")}
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem onClick={() => { history.push("/products/" + fridgeId) }}>
-                                <Trans>{t("Open")}</Trans>
+                                {t("Open")}
                             </DropdownItem>
                             <DropdownItem onClick={() => { history.push("/subscribers/" + fridgeId) }}>
-                                <Trans>{t("Subscribers")}</Trans>
+                                {t("Subscribers")}
                             </DropdownItem>
                             <DropdownItem onClick={() => { editFridge(fridgeId, fridgeName); }}>
-                                <Trans>{t("Edit")}</Trans>
+                                {t("Edit")}
                             </DropdownItem>
                             <DropdownItem onClick={() => { deleteFridge(fridgeId); }}>
-                                <Trans>{t("Delete")}</Trans>
+                                {t("Delete")}
                             </DropdownItem>
                         </DropdownMenu>
                     </ButtonDropdown>
                 ) : (
-                        <Button onClick={() => { history.push("/products/" + fridgeId) }}><Trans>{t("Open")}</Trans></Button>
+                        <Button onClick={() => { history.push("/products/" + fridgeId) }}>{t("Open")}</Button>
                 )}
             </Card>
         </Col>

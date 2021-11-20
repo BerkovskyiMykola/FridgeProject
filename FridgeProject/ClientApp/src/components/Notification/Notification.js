@@ -4,8 +4,10 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card, CardText, CardTitle } from "reactstrap";
 import { allNotifications } from '../../actions/notification';
 import { Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Notification = () => {
+    const { t } = useTranslation();
     const [arrivedNotifications, setArrivedNotifications] = useState([]);
     const dispatch = useDispatch();
 
@@ -52,7 +54,7 @@ const Notification = () => {
                                 {new Date(item.date).toLocaleDateString() + " " + new Date(item.date).toLocaleTimeString()}
                             </CardTitle>
                             <CardText>
-                                {item.text}
+                                {(t("Notification")).replace('{0}', item.productName).replace('{1}', item.fridgeName).replace('{2}', item.isExpired ? t("Expired") : t("WillExpired"))}
                             </CardText>
                         </Card>
                     </Col>
@@ -64,7 +66,7 @@ const Notification = () => {
                                 {new Date(item.date).toLocaleDateString() + " " + new Date(item.date).toLocaleTimeString()}
                             </CardTitle>
                             <CardText>
-                                {item.text}
+                                {(t("Notification")).replace('{0}', item.productName).replace('{1}', item.fridgeName).replace('{2}', item.isExpired ? t("Expired") : t("WillExpired") )}
                             </CardText>
                         </Card>
                     </Col>

@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import {  useTranslation } from "react-i18next";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -61,13 +61,13 @@ export default function Profile(props) {
                 <Form handleSubmit={handleEdit} setForm={(c) => { setForm(c); }}
                     message={message} setCheckBtn={(c) => { setCheckBtn(c); }} >
                     <div>
-                        <Field title={<Trans>{t("Firsname")}</Trans>} name="firstname" value={firstname}
+                        <Field title={t("Firsname")} name="firstname" value={firstname}
                             setValue={(e) => { setFirstname(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
-                        <Field title={<Trans>{t("Lastname")}</Trans>} name="lastname" value={lastname}
+                        <Field title={t("Lastname")} name="lastname" value={lastname}
                             setValue={(e) => { setLastname(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
 
                         <div className="form-group">
-                            <button className="btn btn-primary btn-block"><Trans>{t("Edit")}</Trans></button>
+                            <button className="btn btn-primary btn-block">{t("Edit")}</button>
                         </div>
                     </div>
                 </Form>

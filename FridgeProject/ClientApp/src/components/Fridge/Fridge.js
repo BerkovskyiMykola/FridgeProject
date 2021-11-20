@@ -8,7 +8,7 @@ import { Field } from '../FormComponents';
 import FridgeList from './FridgeList/FridgeList';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { Redirect } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 
 const Fridge = (props) => {
     const { t } = useTranslation();
@@ -81,11 +81,11 @@ const Fridge = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3><Trans>{t("Fridges")}</Trans></h3></Col>
+                    <Col className="text-left"><h3>{t("Fridges")}</h3></Col>
                     <Col className="text-right">
                         <Button disabled={selectedTab === "2"} color="success"
                             onClick={() => { setFridgeName(""); setFridgeId(0); dispatch(clearMessage()); setModalAdd(true); }}>
-                            <Trans>{t("NewFridge")}</Trans>
+                            {t("NewFridge")}
                         </Button>
                         <Button onClick={() => {
                             dispatch(getOwnFridges());
@@ -102,7 +102,7 @@ const Fridge = (props) => {
                         className={selectedTab==="1" ? "active" : ""}
                         onClick={() => { setSelectedTab("1"); }}
                     >
-                        <Trans>{t("Own")}</Trans>
+                        {t("Own")}
                     </NavLink>
                 </NavItem>
                 <NavItem>
@@ -110,7 +110,7 @@ const Fridge = (props) => {
                         className={selectedTab === "2" ? "active" : ""}
                         onClick={() => { setSelectedTab("2"); }}
                     >
-                        <Trans>{t("Shared")}</Trans>
+                        {t("Shared")}
                     </NavLink>
                 </NavItem>
             </Nav>
@@ -122,19 +122,19 @@ const Fridge = (props) => {
                     <FridgeList history={props.history} fridges={sharedFridges} isOwnFridge={false}/>
                 </TabPane>
             </TabContent>
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("AddFridge")}</Trans>}
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={t("AddFridge")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
+                textButton={t("Create")} method={createRecord} form={form} message={message}
             >
-                <Field title={<Trans>{t("FridgeName")}</Trans>} name="fridgename" value={fridgeName}
+                <Field title={t("FridgeName")} name="fridgename" value={fridgeName}
                     setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
             </ModalWindow>
 
-            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={<Trans>{t("EditFridge")}</Trans>}
+            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={t("EditFridge")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                method={editRecord} message={message} form={form} textButton={<Trans>{t("Edit")}</Trans>}
+                method={editRecord} message={message} form={form} textButton={t("Edit")}
             >
-                <Field title={<Trans>{t("FridgeName")}</Trans>} name="fridgename" value={fridgeName}
+                <Field title={t("FridgeName")} name="fridgename" value={fridgeName}
                     setValue={(e) => { setFridgeName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
             </ModalWindow>
         </Container>

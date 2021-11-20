@@ -46,7 +46,9 @@ namespace FridgeProject.WorkerServices
                                 {
                                     var notification = new Notification
                                     {
-                                        Text = $"The {product.ProductName} in the {product.Fridge.FridgeName} refrigerator has expired. Time to throw it away.",
+                                        FridgeName = product.Fridge.FridgeName,
+                                        ProductName = product.ProductName,
+                                        IsExpired = true,
                                         Date = DateTime.Now
                                     };
                                     await _hub.Clients.User(product.User.Email).SendAsync("Notify", notification, stoppingToken);
@@ -58,7 +60,9 @@ namespace FridgeProject.WorkerServices
                                 {
                                     var notification = new Notification
                                     {
-                                        Text = $"The {product.ProductName} in the {product.Fridge.FridgeName} refrigerator will expire tomorrow. be careful",
+                                        FridgeName = product.Fridge.FridgeName,
+                                        ProductName = product.ProductName,
+                                        IsExpired = false,
                                         Date = DateTime.Now
                                     };
                                     await _hub.Clients.User(product.User.Email).SendAsync("Notify", notification, stoppingToken);

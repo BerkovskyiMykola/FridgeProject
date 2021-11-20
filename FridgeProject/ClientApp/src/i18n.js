@@ -78,7 +78,10 @@ i18n.use(LanguageDetector).init({
                 "Email or password is incorrect": "Email or password is incorrect",
                 "Bad Request": "Bad Request",
                 "Not Found": "Not Found",
-                "One or more validation errors occurred.": "One or more validation errors occurred."
+                "One or more validation errors occurred.": "One or more validation errors occurred.",
+                Notification: "The {0} in the {1} refrigerator {2}",
+                Expired: "has expired. Time to throw it away.",
+                WillExpired: "will expire tomorrow. be careful"
             }
         },
         ua: {
@@ -155,7 +158,10 @@ i18n.use(LanguageDetector).init({
                 "Email or password is incorrect": "Електронна адреса або пароль неправильні",
                 "Bad Request": "Поганий запит",
                 "Not Found": "Не знайдено",
-                "One or more validation errors occurred.": "Сталася одна чи кілька помилок перевірки."
+                "One or more validation errors occurred.": "Сталася одна чи кілька помилок перевірки.",
+                Notification: "{0} в холодильнику {1} {2}",
+                Expired: "прострочився. Час його викинути.",
+                WillExpired: "просрочиться завтра. Будьте обережні."
             }
         }
     },

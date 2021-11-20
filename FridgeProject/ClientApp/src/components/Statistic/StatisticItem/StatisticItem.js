@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, CardText} from "reactstrap";
 
 
@@ -13,9 +13,9 @@ const StatisticItem = ({ productName, bought, throwOut}) => {
                     {productName}
                 </CardTitle>
                 <CardText>
-                    {<Trans>{t("Bought")}</Trans>}: {bought}
+                    {t("Bought")}: {bought}
                     <br />
-                    {<Trans>{t("Throw")}</Trans>}: {throwOut}
+                    {t("Throw")}: {throwOut}
                 </CardText>
             </Card>
         </Col>

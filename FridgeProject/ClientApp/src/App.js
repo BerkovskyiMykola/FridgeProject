@@ -23,7 +23,7 @@ import { clearMessage } from "./actions/message";
 
 import { history } from './utils/history';
 import EventBus from "./common/EventBus";
-import { Trans, useTranslation } from "react-i18next";
+import {  useTranslation } from "react-i18next";
 
 export default function App() {
     const { t, i18n } = useTranslation();
@@ -60,7 +60,7 @@ export default function App() {
                     {user ? (
                             <><div className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("EN"); }}>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("en"); }}>
                                         EN
                                     </a>
                                 </li>
@@ -74,49 +74,49 @@ export default function App() {
                                 {user.role === "Admin" ? (
                                     <><li className="nav-item">
                                         <Link to={"/users"} className="nav-link">
-                                            <Trans>{t("Users")}</Trans>
+                                            {t("Users")}
                                         </Link>
                                     </li>
                                         <li className="nav-item">
                                             <Link to={"/profile"} className="nav-link">
-                                                <Trans>{t("Profile")}</Trans>
+                                                {t("Profile")}
                                             </Link>
                                         </li>
                                         <li className="nav-item">
                                             <a href="/login" className="nav-link" onClick={logOut}>
-                                                <Trans>{t("LogOut")}</Trans>
+                                                {t("LogOut")}
                                             </a>
                                         </li>
                                     </>
                                 ) : (<>
                                     <li className="nav-item">
                                         <Link to={"/fridges"} className="nav-link">
-                                            <Trans>{t("Fridges")}</Trans>
+                                            {t("Fridges")}
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"/profile"} className="nav-link">
-                                            <Trans>{t("Profile")}</Trans>
+                                            {t("Profile")}
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"/notifications"} className="nav-link">
-                                            <Trans>{t("Notifications")}</Trans>
+                                            {t("Notifications")}
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"/histories"} className="nav-link">
-                                            <Trans>{t("Histories")}</Trans>
+                                            {t("Histories")}
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"/statistic"} className="nav-link">
-                                            <Trans>{t("Statistic")}</Trans>
+                                            {t("Statistic")}
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/login" className="nav-link" onClick={logOut}>
-                                            <Trans>{t("LogOut")}</Trans>
+                                            {t("LogOut")}
                                         </a>
                                     </li>
                                 </>)}
@@ -126,11 +126,11 @@ export default function App() {
                             <div className="navbar-nav mr-auto">
                                 <li className="nav-item">
                                     <Link to={"/home"} className="nav-link">
-                                        <Trans>{t("Home")}</Trans>
+                                        {t("Home")}
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("EN"); }}>
+                                    <a href="/" className="nav-link" onClick={(e) => { e.preventDefault(); i18n.changeLanguage("en"); }}>
                                         EN
                                     </a>
                                 </li>
@@ -143,13 +143,13 @@ export default function App() {
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <Link to={"/login"} className="nav-link">
-                                        <Trans>{t("Login")}</Trans>
+                                        {t("Login")}
                                     </Link>
                                 </li>
 
                                 <li className="nav-item">
                                     <Link to={"/register"} className="nav-link">
-                                        <Trans>{t("Sign Up")}</Trans>
+                                        {t("Sign Up")}
                                     </Link>
                                 </li>
                             </div>

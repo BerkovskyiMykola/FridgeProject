@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Button, Row, Col } from 'reactstrap';
@@ -62,18 +62,18 @@ const Subscriber = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3>{<Trans>{t("SubscribersOf")}</Trans>}{fridgeName}</h3></Col>
+                    <Col className="text-left"><h3>{t("SubscribersOf")}{fridgeName}</h3></Col>
                     <Col className="text-right"><Button
                         onClick={() => { setEmail(""); dispatch(clearMessage()); setModalAdd(true); }}
-                        color="success"><Trans>{t("NewSubscriber")}</Trans></Button></Col>
+                        color="success">{t("NewSubscriber")}</Button></Col>
                 </Row>
             </Container>
             <SubscriberList deleteSubscriber={deleteRecord} subscribers={subscribers} />
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("AddSubscriber")}</Trans>}
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={t("AddSubscriber")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
+                textButton={t("Create")} method={createRecord} form={form} message={message}
             >
-                <Field title={<Trans>{t("Email")}</Trans>} name="email" value={email}
+                <Field title={t("Email")} name="email" value={email}
                     setValue={(e) => { setEmail(e.target.value) }} validations={[validateRequired(t), validateEmail(t)]} />
             </ModalWindow>
         </Container>

@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 import { CardTitle, Card, Col, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, CardText } from "reactstrap";
 
 
@@ -14,27 +14,27 @@ const ProductItem = ({ productId, productName, expirationDate, description, amou
                     {productName}
                 </CardTitle>
                 <CardText>
-                    {<Trans>{t("ExpirationDate")}</Trans>}: {new Date(expirationDate).toISOString().substring(0, 10)}
+                    {t("ExpirationDate")}: {new Date(expirationDate).toISOString().substring(0, 10)}
                     <br />
-                    {<Trans>{t("Description")}</Trans>}: {description}
+                    {t("Description")}: {description}
                     <br />
-                    {<Trans>{t("Amount")}</Trans>}: {amount}
+                    {t("Amount")}: {amount}
                 </CardText>
                 <ButtonDropdown
                     isOpen={dropdownOpen} toggle={() => setOpen(!dropdownOpen)}
                 >
                     <DropdownToggle caret>
-                        {<Trans>{t("ClickMe")}</Trans>}
+                        {t("ClickMe")}
                     </DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem onClick={() => editProduct(productId, productName, expirationDate, description, amount)}>
-                            {<Trans>{t("Edit")}</Trans>}
+                            {t("Edit")}
                         </DropdownItem>
                         <DropdownItem onClick={() => deleteProduct(productId) }>
-                            {<Trans>{t("Delete")}</Trans>}
+                            {t("Delete")}
                         </DropdownItem>
                         <DropdownItem onClick={() => throwOutProduct(productId, amount)}>
-                            {<Trans>{t("ThrowOut")}</Trans>}
+                            {t("ThrowOut")}
                         </DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>

@@ -72,7 +72,9 @@ namespace FridgeProject.Migrations
                 {
                     NotificationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    FridgeName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    IsExpired = table.Column<bool>(type: "bit", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },

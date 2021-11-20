@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Button } from "reactstrap";
@@ -111,12 +111,12 @@ const Product = (props) => {
         <Container>
             <Container>
                 <Row>
-                    <Col className="text-left"><h3><Trans>{t("Fridge")}</Trans>: {fridgeName}</h3></Col>
+                    <Col className="text-left"><h3>{t("Fridge")}: {fridgeName}</h3></Col>
                     <Col className="text-right">
                         <Button color="success"
                             onClick={() => { setModalAdd(true); clearFields(); }}
                         >
-                            <Trans>{t("NewProduct")}</Trans>
+                            {t("NewProduct")}
                         </Button>
                     </Col>
                 </Row>
@@ -124,39 +124,39 @@ const Product = (props) => {
 
             <ProductList products={products} deleteProduct={deleteRecord} editProduct={getProductValues} throwOutProduct={getValuesForThrowOut}/>
 
-            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={<Trans>{t("AddProduct")}</Trans>}
+            <ModalWindow modal={modalAdd} deactiveModal={() => setModalAdd(false)} textHeader={t("AddProduct")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("Create")}</Trans>} method={createRecord} form={form} message={message}
+                textButton={t("Create")} method={createRecord} form={form} message={message}
             >
-                <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
+                <Field title={t("NameOfProduct")} name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
-                <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
+                <Field title={t("ExpirationDate")} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
-                <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
+                <Field title={t("Description")} name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired(t), validateDescription(t)]} />
-                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
+                <Field title={t("Amount")} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
 
-            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={<Trans>{t("EditProduct")}</Trans>}
+            <ModalWindow modal={modalEdit} deactiveModal={() => setModalEdit(false)} textHeader={t("EditProduct")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("Edit")}</Trans>} method={editRecord} form={form} message={message}
+                textButton={t("Edit")} method={editRecord} form={form} message={message}
             >
-                <Field title={<Trans>{t("NameOfProduct")}</Trans>} name="productName" value={productName}
+                <Field title={t("NameOfProduct")} name="productName" value={productName}
                     setValue={(e) => { setProductName(e.target.value) }} validations={[validateRequired(t), validateField(t)]} />
-                <Field title={<Trans>{t("ExpirationDate")}</Trans>} name="expirationDate" value={expirationDate} type="date"
+                <Field title={t("ExpirationDate")} name="expirationDate" value={expirationDate} type="date"
                     setValue={(e) => { setExpirationDate(e.target.value) }} min={new Date(Date.now() + (3600 * 1000 * 24)).toISOString().substring(0, 10)} />
-                <Field title={<Trans>{t("Description")}</Trans>} name="description" value={description}
+                <Field title={t("Description")} name="description" value={description}
                     setValue={(e) => { setDescription(e.target.value) }} validations={[validateRequired(t), validateDescription(t)]} />
-                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
+                <Field title={t("Amount")} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
 
-            <ModalWindow modal={modalThrowOut} deactiveModal={() => setModalThrowOut(false)} textHeader={<Trans>{t("ThrowOutProduct")}</Trans>}
+            <ModalWindow modal={modalThrowOut} deactiveModal={() => setModalThrowOut(false)} textHeader={t("ThrowOutProduct")}
                 setForm={(c) => { setForm(c); }} checkBtn={checkBtn} setCheckBtn={(c) => { setCheckBtn(c); }}
-                textButton={<Trans>{t("ThrowOut")}</Trans>} method={throwOutRecord} form={form} message={message}
+                textButton={t("ThrowOut")} method={throwOutRecord} form={form} message={message}
             >
-                <Field title={<Trans>{t("Amount")}</Trans>} name="amount" value={amount} type="number"
+                <Field title={t("Amount")} name="amount" value={amount} type="number"
                     setValue={(e) => { setAmount(e.target.value) }} min={0} />
             </ModalWindow>
         </Container>

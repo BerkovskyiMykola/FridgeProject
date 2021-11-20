@@ -1,11 +1,11 @@
 import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import {  useTranslation } from 'react-i18next';
 
 const Home = () => {
     const { t } = useTranslation();
     return (
         <div>
-            <h1 className="Center">{<Trans>{t("Hello, world!")}</Trans>}</h1>
+            <h1 className="Center">{t("Hello, world!")}</h1>
         </div>
     );
 }
