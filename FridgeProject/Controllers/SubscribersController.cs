@@ -71,7 +71,7 @@ namespace FridgeProject.Controllers
 
             if (fridge.Subscribers.Any(x => x.User.Email == model.Email))
             {
-                return BadRequest("User is added");
+                return BadRequest("the user has already been added");
             }
 
             var subscriber = new Subscriber { UserId = user.UserId, FridgeId = model.FridgeId };

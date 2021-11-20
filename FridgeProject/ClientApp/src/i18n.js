@@ -65,6 +65,20 @@ i18n.use(LanguageDetector).init({
                 "The field must be between 2 and 30 characters.": "The field must be between 2 and 30 characters.",
                 "The field must be between 2 and 50 characters.": "The field must be between 2 and 50 characters.",
                 "The password must be between 8 and 18 characters.": "The password must be between 8 and 18 characters.",
+
+                "it is not your fridge": "it is not your fridge",
+                "you can't throw out 0 products": "you can't throw out 0 products",
+                "you can't throw out more than you have": "you can't throw out more than you have",
+                "Fridge does not exist": "Fridge does not exist",
+                "you can not add in this fridge": "you can not add in this fridge",
+                "Date error": "Date error",
+                "History is empty": "History is empty",
+                "the user has already been added ": "the user has already been added",
+                "User with such Email exists": "User with such Email exists",
+                "Email or password is incorrect": "Email or password is incorrect",
+                "Bad Request": "Bad Request",
+                "Not Found": "Not Found",
+                "One or more validation errors occurred.": "One or more validation errors occurred."
             }
         },
         ua: {
@@ -128,6 +142,20 @@ i18n.use(LanguageDetector).init({
                 "The field must be between 2 and 30 characters.": "Поле має містити від 2 до 30 символів.",
                 "The field must be between 2 and 50 characters.": "Поле має містити від 2 до 50 символів.",
                 "The password must be between 8 and 18 characters.": "Пароль має містити від 8 до 18 символів.",
+
+                "it is not your fridge": "це не твій холодильник",
+                "you can't throw out 0 products": "ви не можете викинути 0 продуктів ",
+                "you can't throw out more than you have": "ви не можете викинути більше, ніж маєте",
+                "Fridge does not exist": "Холодильника не існує ",
+                "you can not add in this fridge": "ви не можете додати в цей холодильник",
+                "Date error": "Помилка дати",
+                "History is empty": "Історія порожня",
+                "the user has already been added ": "Користувач уже добавлений",
+                "User with such Email exists": "Користувач із такою електронною поштою існує",
+                "Email or password is incorrect": "Електронна адреса або пароль неправильні",
+                "Bad Request": "Поганий запит",
+                "Not Found": "Не знайдено",
+                "One or more validation errors occurred.": "Сталася одна чи кілька помилок перевірки."
             }
         }
     },
