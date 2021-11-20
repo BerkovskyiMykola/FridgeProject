@@ -175,7 +175,7 @@ namespace FridgeProject.Controllers
 
             if(fridge == null)
             {
-                return BadRequest("Fridge do not exist");
+                return BadRequest("Fridge does not exist");
             }
 
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == HttpContext.User.Identity.Name);

@@ -42,7 +42,7 @@ namespace FridgeProject.Controllers
                 Firstname = model.Firstname,
                 Email = model.Email,
                 Password = GetPasswordHash(model.Password),
-                Role = HttpContext.User.IsInRole("Admin") ? model.Role : "User"
+                Role = "User"
             };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
