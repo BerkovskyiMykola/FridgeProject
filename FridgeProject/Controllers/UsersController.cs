@@ -115,8 +115,13 @@ namespace FridgeProject.Controllers
 
         [HttpPut("edit/{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutUser(EditUserRequest model)
+        public async Task<IActionResult> PutUser(int id, EditUserRequest model)
         {
+            if (id != model.UserId)
+            {
+                return BadRequest();
+            }
+
             var user = await _context.Users.FindAsync(model.UserId);
 
             if (user == null)
